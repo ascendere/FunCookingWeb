@@ -1,0 +1,34 @@
+<!-- <p>idCocina: {{idCocina}}</p> -->
+<!-- <p>id: {{id}}</p> -->
+<!-- <pre>{{data | json}}</pre> -->
+
+<div class="container">
+
+<app-slides [data]="data.slides"></app-slides>
+
+<h1>{{data.title}}</h1>
+
+<!-- mundos -->
+<section *ngIf="!id">
+    <h3>Páginas</h3>
+    <!-- <pre>{{data.pages | json}}</pre> -->
+    <li *ngFor="let item of data.pages">{{item.title}}</li>
+</section>
+
+<!-- categories -->
+<section class="Categories" *ngIf="!!data.categories && !!id">
+    <!-- <p>Categories: {{data.categories | json}}</p> -->
+    <h3>Categorias</h3>
+    <ul *ngFor="let cat of data.categories">
+        <li>{{cat.name}}</li>
+        <ul *ngFor="let item of cat.items">
+            <li>{{item.name}}</li>
+        </ul>
+    </ul>
+</section>
+
+<section *ngIf="!data.categories && !!id">
+    <h2>Items:</h2>
+    <li *ngFor="let item of data.items">{{item.name}}</li>
+</section>
+</div>

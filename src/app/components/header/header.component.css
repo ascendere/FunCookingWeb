@@ -1,0 +1,17 @@
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fa9c30;
+  padding:0 3em;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* .menu {
+  display: flex;
+  gap: 10px;
+} */
+

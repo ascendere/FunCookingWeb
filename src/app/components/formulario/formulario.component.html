@@ -1,0 +1,11 @@
+<div class="contenedor">
+  <form [formGroup]="checkoutForm" (ngSubmit)="submitForm()" class="formulario">
+    <label for="title">Título:</label>
+    <!--el for = "title" se conecta con id de los input -->
+    <input type="text" id="title" formControlName="title" placeholder="Título">
+    <label for="image">Imagen:</label>
+    <input type="file" id="image" formControlName="image" (change)="onImageChange($event)" placeholder="Título">
+    <button class="button" type="submit">Purchase</button>
+  </form>
+</div>
+
