@@ -1,0 +1,529 @@
+<div class="container">
+  <div class="card text-center w-100">
+    <div class="card-header">
+      <h3>{{ titleP }}</h3>
+      <div *ngIf="submitted && createProducts.invalid">
+        <span class="badge badge-danger">All Changes Are Mandatory</span><br />
+        <ng-container *ngIf="createProducts.controls['name']?.invalid">
+          <span class="text-danger">Name no acepta numeros</span><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['scientific_name']?.invalid"
+        >
+          <span class="text-danger">Scientific_Name no acepta numeros</span
+          ><br />
+        </ng-container>
+        <ng-container *ngIf="createProducts.controls['food_Group']?.invalid">
+          <span class="text-danger">Food_Group no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createProducts.controls['benefitsArray']?.invalid">
+          <span class="text-danger">Benefit no acepta numeros</span><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['derivativesArray']?.invalid"
+        >
+          <span class="text-danger">Derivatives no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createProducts.controls['locationArray']?.invalid">
+          <span class="text-danger">Location no acepta numeros</span><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['preparationsArray']?.invalid"
+        >
+          <span class="text-danger">Preparations no acepta numeros</span><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['classificationArray']?.invalid"
+        >
+          <span class="text-danger">Classification no acepta numeros</span
+          ><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['combinationArray']?.invalid"
+        >
+          <span class="text-danger">Combination no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createProducts.controls['ciudadArray']?.invalid">
+          <span class="text-danger">Ciudad no acepta numeros</span><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['supermercadoArray']?.invalid"
+        >
+          <span class="text-danger">Supermercado no acepta numeros</span><br />
+        </ng-container>
+        <ng-container
+          *ngIf="createProducts.controls['micromercadoArray']?.invalid"
+        >
+          <span class="text-danger">Micromercado no acepta numeros</span><br />
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form
+        class="mt-4"
+        [formGroup]="createProducts"
+        (ngSubmit)="addEditProducts()"
+      >
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                formControlName="name"
+                placeholder="Name"
+                pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="image">Image</label>
+              <input
+                type="file"
+                (change)="uploadImage($event)"
+                accept="image/*"
+                multiple
+              />
+            </div>
+
+            <div
+              class="image-container"
+              *ngFor="let imageItem of products.image; let i = index"
+            >
+              <div class="image-wrapper">
+                <img
+                  [src]="imageItem + '?cache=' + i"
+                  width="150"
+                  alt="Image"
+                />
+              </div>
+              <button
+                class="btn btn-danger delete-button"
+                (click)="deleteImage($event, i)"
+              >
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label for="scientific_name">Scientific Name</label>
+              <input
+                type="text"
+                id="scientific_name"
+                class="form-control"
+                formControlName="scientific_name"
+                placeholder="Scientific Name"
+                pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="calories">Calories</label>
+              <input
+                type="number"
+                id="calories"
+                class="form-control"
+                formControlName="calories"
+                placeholder="Calories"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="fiber">Fiber</label>
+              <input
+                type="number"
+                id="fiber"
+                class="form-control"
+                formControlName="fiber"
+                placeholder="Fiber"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="fats">Fats</label>
+              <input
+                type="number"
+                id="fats"
+                class="form-control"
+                formControlName="fats"
+                placeholder="Fats"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="carbohydrates">Carbohydrates</label>
+              <input
+                type="number"
+                id="carbohydrates"
+                class="form-control"
+                formControlName="carbohydrates"
+                placeholder="Carbohydrates"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="proteins">Proteins</label>
+              <input
+                type="number"
+                id="proteins"
+                class="form-control"
+                formControlName="proteins"
+                placeholder="Proteins"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lipids">Lipids</label>
+              <input
+                type="number"
+                id="lipids"
+                class="form-control"
+                formControlName="lipids"
+                placeholder="Lipids"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="food_Group">Food Group</label>
+              <input
+                type="text"
+                id="food_Group"
+                class="form-control"
+                formControlName="food_Group"
+                placeholder="FoodGroup"
+                pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="benefitsArray" class="mr-3">Benefits:</label>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="addBenefit()"
+              >
+                Add Benefit
+              </button>
+              <div formArrayName="benefitsArray">
+                <div
+                  *ngFor="let benefit of benefitsArrayControls; let i = index"
+                  class="input-group mt-2"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [formControlName]="i"
+                    pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="removeBenefit(i)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="derivativesArray">Derivatives:</label>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="addDerivative()"
+              >
+                Add Derivative
+              </button>
+              <div formArrayName="derivativesArray">
+                <div
+                  *ngFor="
+                    let derivative of derivativesArrayControls;
+                    let i = index
+                  "
+                  class="input-group mt-2"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [formControlName]="i"
+                    pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="removeDerivative(i)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div formGroupName="location">
+              <div class="form-group">
+                <label for="ciudadArray">Ciudad:</label>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="addCiudad()"
+                >
+                  Add Ciudad
+                </button>
+                <div formArrayName="ciudadArray">
+                  <div
+                    *ngFor="
+                      let ciudad of getCiudadArray().controls;
+                      let i = index
+                    "
+                    class="form-row"
+                  >
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        [formControlName]="i"
+                        class="form-control"
+                      />
+                      <div class="input-group-append">
+                        <button
+                          type="button"
+                          (click)="removeCiudad(i)"
+                          class="btn btn-danger"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="micromercadoArray">Micromercado:</label>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="addMicromercado()"
+                >
+                  Add Micromercado
+                </button>
+                <div formArrayName="micromercadoArray">
+                  <div
+                    *ngFor="
+                      let micromercado of getMicromercadoArray().controls;
+                      let i = index
+                    "
+                    class="form-row"
+                  >
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        [formControlName]="i"
+                        class="form-control"
+                      />
+                      <div class="input-group-append">
+                        <button
+                          type="button"
+                          (click)="removeMicromercado(i)"
+                          class="btn btn-danger"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group mt-2">
+                <label for="supermercadoArray">Supermercado:</label>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="addSupermercado()"
+                >
+                  Add Supermercado
+                </button>
+                <div formArrayName="supermercadoArray">
+                  <div
+                    *ngFor="
+                      let supermercado of getSupermercadoArray().controls;
+                      let i = index
+                    "
+                    class="form-row"
+                  >
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        [formControlName]="i"
+                        class="form-control"
+                      />
+                      <div class="input-group-append">
+                        <button
+                          type="button"
+                          (click)="removeSupermercado(i)"
+                          class="btn btn-danger"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mt-2">
+              <label for="preparationsArray">Preparations:</label>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="addPreparations()"
+              >
+                Add Preparation
+              </button>
+              <div formArrayName="preparationsArray">
+                <div
+                  *ngFor="
+                    let preparation of preparationsArrayControls;
+                    let i = index
+                  "
+                  class="input-group mt-2"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [formControlName]="i"
+                    pattern="[[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="removePreparations(i)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mt-2">
+            <div class="form-group">
+              <label for="classificationArray">Classification:</label>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="addClassification()"
+              >
+                Add Classification
+              </button>
+              <div formArrayName="classificationArray">
+                <div
+                  *ngFor="
+                    let classification of classificationArrayControls;
+                    let i = index
+                  "
+                  class="input-group mt-2"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [formControlName]="i"
+                    pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                  />
+                  <div class="input-group-append">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="removeClassification(i)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="combination">Combination</label>
+              <div formArrayName="combinationArray">
+                <div
+                  *ngFor="
+                    let combination of combinationArrayControls;
+                    let i = index
+                  "
+                  [formGroupName]="i"
+                  class="mt-2"
+                >
+                  <div class="row">
+                    <div class="col">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="name"
+                        placeholder="Name"
+                      />
+                    </div>
+                    <div class="col">
+                      <input
+                        type="number"
+                        class="form-control"
+                        formControlName="porcentage"
+                        placeholder="Porcentage"
+                      />
+                    </div>
+                    <div class="col">
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="removeCombination(i)"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="addCombination()"
+                >
+                  Add Combination
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 gap-4">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg me-2"
+            routerLink="/list-products"
+          >
+            Return
+          </button>
+          <button type="submit" class="btn btn-dark btn-lg">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

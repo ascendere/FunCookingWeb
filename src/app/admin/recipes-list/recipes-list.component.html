@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <div class="card" style="width: 5000px; margin-left: auto; margin-right: 0">
+    <div class="card-body" width="500px">
+      <span class="h3">List-Recipes</span>
+      <button
+        class="btn btn-dark btn-lg float-right"
+        routerLink="/create-recipes"
+      >
+        Add
+      </button>
+      <div>
+        <h5 *ngIf="recipes.length == 0">No data to display</h5>
+        <table *ngIf="recipes.length > 0" class="table table-striped mt-5">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Clasification</th>
+              <th>Difficulty</th>
+              <th>Performance</th>
+              <th>Time</th>
+              <th>Ingredients</th>
+              <th>Image</th>
+              <th>Procedure</th>
+              <th>Extra Data</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let recipes of recipes">
+              <td>{{ recipes.name }}</td>
+              <td>{{ recipes.clasification }}</td>
+              <td>{{ recipes.difficulty }}</td>
+              <td>{{ recipes.performance }} porciones</td>
+              <td>{{ recipes.time }} min</td>
+              <td>
+                <ul>
+                  <li *ngFor="let ingredients of recipes.ingredientsArray">
+                    {{ ingredients.ingredients }} -
+                    {{ ingredients.quantities }} - {{ ingredients.extent }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <div *ngFor="let imageUrl of recipes.image">
+                  <img [src]="imageUrl" alt="Image" width="200" />
+                </div>
+              </td>
+              <td>
+                <ul>
+                  <li
+                    *ngFor="
+                      let procedure of recipes.procedureArray;
+                      let i = index
+                    "
+                    style="list-style-type: none"
+                  >
+                    {{ i + 1 }}. {{ procedure }}
+                  </li>
+                </ul>
+              </td>
+
+              <td>
+                <ul>
+                  <li *ngFor="let extraData of recipes.extraDataArray">
+                    {{ extraData }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <i
+                  class="fa-sharp fa-solid fa-pen-to-square fa-lg text-info mr-3"
+                  [routerLink]="['/editRecipes/', recipes.id]"
+                ></i>
+                <i
+                  (click)="deleteRecipes(recipes.id)"
+                  class="fa-solid fa-trash fa-lg text-danger"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

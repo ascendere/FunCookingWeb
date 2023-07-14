@@ -1,0 +1,252 @@
+<h1>recipes</h1>
+
+<!-- <div class="container">
+  <div class="card text-center w-100">
+    <div class="card-header">
+      <h3>{{ titleR }}</h3>
+      <div *ngIf="submitted && createRecipes.invalid">
+        <span class="badge badge-danger">All Changes Are Mandatory</span><br />
+        <ng-container *ngIf="createRecipes.controls['name']?.invalid">
+          <span class="text-danger">name no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['clasification']?.invalid">
+          <span class="text-danger">clasification no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['difficulty']?.invalid">
+          <span class="text-danger">difficulty no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['performance']?.invalid">
+          <span class="text-danger">performance no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['time']?.invalid">
+          <span class="text-danger">time solo acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['ingredients']?.invalid">
+          <span class="text-danger">ingredients no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['procedureArray']?.invalid">
+          <span class="text-danger">Procedure no acepta numeros</span><br />
+        </ng-container>
+        <ng-container *ngIf="createRecipes.controls['extraDataArray']?.invalid">
+          <span class="text-danger">Extra Data no acepta numeros</span><br />
+        </ng-container>
+      </div>
+      <form
+        class="mt-4"
+        [formGroup]="createRecipes"
+        (ngSubmit)="addEditRecipes()"
+      >
+        <div class="row">
+          <div class="col">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              formControlName="name"
+              placeholder="Name"
+              pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+            />
+          </div>
+          <div class="col">
+            <label for="classification">Clasification</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              formControlName="clasification"
+              placeholder="Clasification"
+              pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+            />
+          </div>
+          <div class="col">
+            <label for="difficulty">Difficulty</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              formControlName="difficulty"
+              placeholder="Difficulty"
+              pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+            />
+          </div>
+          <div class="col">
+            <label for="performance">Performance</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              formControlName="performance"
+              placeholder="Performance"
+            />
+          </div>
+
+          <div class="col">
+            <label for="time">Time(min)</label>
+            <input
+              type="number"
+              class="form-control form-control-lg"
+              formControlName="time"
+              placeholder="Time"
+            />
+          </div>
+        </div>
+
+        <div class="form-group mt-4">
+          <label for="ingredients">Ingredients</label>
+          <div formArrayName="ingredientsArray">
+            <div
+              *ngFor="
+                let combination of ingredientsArrayControls;
+                let i = index
+              "
+              [formGroupName]="i"
+              class="row mb-2"
+            >
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="ingredients"
+                  placeholder="Ingredients"
+                  pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                />
+              </div>
+              <div class="col">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="quantities"
+                  placeholder="Quantities"
+                />
+              </div>
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="extent"
+                  placeholder="Extent"
+                  pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                />
+              </div>
+              <div class="col">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="removeIngredients(i)"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-success mt-2"
+            (click)="addIngredients()"
+          >
+            Add Ingredients
+          </button>
+        </div>
+
+        <div class="form-group mt-4">
+          <label for="image">Image</label>
+          <input
+            type="file"
+            (change)="uploadImage($event)"
+            accept="image/*"
+            multiple
+          />
+        </div>
+
+        <div
+          class="image-container"
+          *ngFor="let imageItem of recipes.image; let i = index"
+        >
+          <div class="image-wrapper">
+            <img [src]="imageItem + '?cache=' + i" width="350" alt="Image" />
+          </div>
+          <button
+            class="btn btn-danger delete-button"
+            (click)="deleteImage($event, i)"
+          >
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </div>
+
+        <div class="form-group mt-4">
+          <label for="procedureArray">Procedure:</label>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="addProcedure()"
+          >
+            Add Procedure
+          </button>
+          <div formArrayName="procedureArray">
+            <div
+              *ngFor="let procedure of procedureArrayControls; let i = index"
+              class="input-group mt-2"
+            >
+              <input
+                type="text"
+                class="form-control"
+                [formControlName]="i"
+                pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+              />
+              <div class="input-group-append">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="removeProcedure(i)"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mt-4">
+          <label for="extraDataArray">Extra Data:</label>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="addExtraData()"
+          >
+            Add Extra Data
+          </button>
+          <div formArrayName="extraDataArray">
+            <div
+              *ngFor="let extraData of extraDataArrayControls; let i = index"
+              class="input-group mt-2"
+            >
+              <input
+                type="text"
+                class="form-control"
+                [formControlName]="i"
+                pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+              />
+              <div class="input-group-append">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="removeExtraData(i)"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <button
+            type="text"
+            class="btn btn-secondary btn-lg mr-4"
+            routerLink="/list-recipes"
+          >
+            Return
+          </button>
+          <button type="submit" class="btn btn-dark btn-lg">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->

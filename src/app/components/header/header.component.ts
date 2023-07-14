@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,7 @@ export class HeaderComponent {
         {
           name: 'Creativa',
           route: 'cocina/mundosalado/creativa',
-        }
+        },
       ],
     },
     {
@@ -58,4 +59,10 @@ export class HeaderComponent {
       ],
     },
   ];
+
+  constructor(private router: Router) {}
+
+  redirectToURL(url: string) {
+    this.router.navigateByUrl(url);
+  }
 }

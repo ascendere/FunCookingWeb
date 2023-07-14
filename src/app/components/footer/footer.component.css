@@ -1,4 +1,4 @@
-.footer {
+/* .footer {
   background-color: #0b0d17;
   color: #fff;
 
@@ -33,10 +33,71 @@
 .item img {
   height: 40px;
   width: 40px;
-}
-
+} */
 
 /* .text {
   display: grid;
   align-items: center;
 } */
+
+.footer {
+  background-color: #ffd98d;
+  padding: 70px;
+  height: 430px;
+
+  display: grid;
+  align-items: center;
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px;
+}
+
+ul.custom-list {
+  list-style-type: none;
+}
+ul.custom-list li::before {
+  content: ">";
+  margin-right: 0.5em;
+}
+
+.list-sin-vineta {
+  list-style: none;
+}
+
+.rectagle {
+  height: 55px;
+  width: 100%;
+  position: absolute;
+  background-color: #fca84e;
+  bottom: 0;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ascender-logo {
+  rotate: -24.46deg;
+}
+
+.address p {
+  line-height: .5; /* Puedes ajustar este valor según tus necesidades */
+}
+
+.media-logos {
+  display: flex;
+  width: auto;
+}
+
+.title-contact {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}

@@ -6,6 +6,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { SitesComponent } from './pages/sites/sites.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormularioComponent } from './components/formulario/formulario.component';
+import { ProductComponent } from './admin/product/product.component';
+import { RecipeComponent } from './admin/recipe/recipe.component';
+import { ProductsListComponent } from './admin/products-list/products-list.component';
+import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 
 const routes: Routes = [
   {
@@ -29,6 +33,10 @@ const routes: Routes = [
     path: 'locales',
     component: SitesComponent,
   },
+  /* {
+    path: 'cocinas',
+    component: LayoutComponent,
+  }, */
   {
     path: 'cocina/:idCocina',
     component: LayoutComponent,
@@ -41,6 +49,12 @@ const routes: Routes = [
     path: 'formulario',
     component: FormularioComponent,
   },
+  { path: 'products', component: ProductsListComponent },
+  { path: 'create-producto', component: ProductComponent },
+  { path: 'update-producto/:id', component: ProductComponent },
+  { path: 'recipes', component: RecipesListComponent },
+  { path: 'create-recipe', component: RecipeComponent },
+  { path: 'update-recipe/:id', component: RecipeComponent },
 ];
 
 @NgModule({

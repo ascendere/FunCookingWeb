@@ -4,85 +4,26 @@
   </div>
 
   <div class="botones">
-    <button mat-button><a routerLink="inicio">Inicio</a></button>
-    <button mat-button><a routerLink="formulario">Formulario</a></button>
+    <button mat-button>
+      <a (click)="redirectToURL('login')" routerLinkActive="active"
+        ><mat-icon>account_circle</mat-icon></a
+      >
+    </button>
 
-    <button mat-button><mat-icon>search</mat-icon></button>
+    <button mat-button>
+      <a (click)="redirectToURL('inicio')" routerLinkActive="active">Inicio</a>
+    </button>
+    <!-- <button mat-button><a routerLink="formulario">Formulario</a></button> -->
 
-    <!-- <button mat-button [matMenuTriggerFor]="cocinas">Cocinas</button>
-    <mat-menu #cocinas="matMenu">
-      <button mat-menu-item [matMenuTriggerFor]="mundoSalado">
-        Mundo Salado
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="mundoDulce">
-        Mundo Dulce
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="mundoBebidas">
-        Mundo Bebidas
-      </button>
-    </mat-menu>
-    <mat-menu #mundoSalado="matMenu">
-      <button mat-menu-item>
-        <a routerLink="cocina/mundosalado/ecuatoriana" routerLinkActive="active"
-          >Ecuatoriana</a
-        >
-      </button>
-      <button mat-menu-item>
-        <a
-          routerLink="cocina/mundosalado/internacional"
-          routerLinkActive="active"
-        >
-          Internacional</a
-        >
-      </button>
-      <button mat-menu-item>
-        <a routerLink="cocina/mundosalado/creativa" routerLinkActive="active">
-          Creativa</a
-        >
-      </button>
-    </mat-menu>
-    <mat-menu #mundoDulce="matMenu">
-      <button mat-menu-item>
-        <a
-          routerLink="cocina/mundodulce/panaderia-pasteleria"
-          routerLinkActive="active"
-        >
-          Panaderia/pasteleria</a
-        >
-      </button>
-      <button mat-menu-item>
-        <a routerLink="cocina/mundodulce/helados" routerLinkActive="active">
-          helados</a
-        >
-      </button>
-    </mat-menu>
-    <mat-menu #mundoBebidas="matMenu">
-      <button mat-menu-item>
-        <a routerLink="cocina/mundobebidas/vinos" routerLinkActive="active">
-          Vinos</a
-        >
-      </button>
-      <button mat-menu-item>
-        <a routerLink="cocina/mundobebidas/cocteles" routerLinkActive="active">
-          cocteles</a
-        >
-      </button>
-      <button mat-menu-item>
-        <a
-          routerLink="cocina/mundobebidas/bebidasnaturales"
-          routerLinkActive="active"
-        >
-          bebidasnaturales</a
-        >
-      </button>
-    </mat-menu> -->
+    <!-- <button mat-button><mat-icon>search</mat-icon></button> -->
 
-    <button mat-button [matMenuTriggerFor]="cocinas">Cocinas</button>
+    <button mat-button [matMenuTriggerFor]="cocinas" (dblclick)="redirectToURL('cocinas')">Cocinas</button>
     <mat-menu #cocinas="matMenu">
       <ng-container *ngFor="let ruta of rutas">
         <button
           mat-menu-item
           [matMenuTriggerFor]="submenu"
+          (click)="redirectToURL(ruta.route)"
           [routerLink]="ruta.route"
           routerLinkActive="active"
         >
@@ -93,6 +34,7 @@
           <button
             mat-menu-item
             *ngFor="let subruta of ruta.sub_rutas"
+            (click)="redirectToURL(subruta.route)"
             [routerLink]="subruta.route"
             routerLinkActive="active"
           >
@@ -103,11 +45,40 @@
       </ng-container>
     </mat-menu>
 
-    <button mat-button><a routerLink="locales">Locales</a></button>
+    <button mat-button>
+      <a (click)="redirectToURL('locales')" routerLinkActive="active"
+        >Locales</a
+      >
+    </button>
 
-    <button mat-button><a routerLink="contacto">Contactos</a></button>
+    <button mat-button>
+      <a (click)="redirectToURL('contacto')" routerLinkActive="active"
+        >Contactos</a
+      >
+    </button>
 
-    <button mat-button><a routerLink="login"><mat-icon>account_circle</mat-icon></a>
+    <!--  -->
+
+    <button mat-button>
+      <a (click)="redirectToURL('products')" routerLinkActive="active"
+        >LIsta Productos</a
+      >
+    </button>
+    <button mat-button>
+      <a (click)="redirectToURL('create-producto')" routerLinkActive="active"
+        >create-producto</a
+      >
+    </button>
+
+    <button mat-button>
+      <a (click)="redirectToURL('recipes')" routerLinkActive="active"
+        >LIsta recipes</a
+      >
+    </button>
+    <button mat-button>
+      <a (click)="redirectToURL('create-recipe')" routerLinkActive="active"
+        >create-recipe</a
+      >
     </button>
   </div>
 </div>

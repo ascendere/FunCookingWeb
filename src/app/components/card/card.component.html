@@ -1,1 +1,19 @@
-<p>card works!</p>
+<div class="flip-card tarjeta">
+  <div class="flip-card-inner">
+    <div class="flip-card-front tarjeta">
+      <div class="contenido">
+        <h2>{{ data.title }}</h2>
+      </div>
+    </div>
+
+    <div class="flip-card-back tarjeta">
+      <div class="contenido">
+        <h3>{{ data.title }}</h3>
+        <p>{{ data.description }}</p>
+        <div class="boton">
+          <button><a [routerLink]="data.see_more">Mostrar más</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

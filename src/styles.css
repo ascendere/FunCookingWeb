@@ -1,5 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Fuentes */
+  --fuentes-principales: 'Montserrat', sans-serif;
+  --fuentes-secundarias: 'Comfortaa', sans-serif,
+  --fntes-terciarias: 'Nunito Sans', sans-serif;
+  /* Colores */
+  --azul: #003049
+  --amarillo: #fcbf49
+  --naranja: #f77f00
+  --rojo: #d62828
+}
+
 *, html {
+  scroll-behavior: smooth;
   box-sizing: border-box;
   border: 0;
   margin: 0;

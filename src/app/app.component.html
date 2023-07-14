@@ -1,21 +1,7 @@
-<app-header></app-header>
+<app-header *ngIf="!isLogin"></app-header>
 
-<div class="container">
+<div [ngClass]="{'container': !isLogin}">
     <router-outlet></router-outlet>
 </div>
-<!-- <button><a routerLink="home" routerLinkActive="active">home</a></button>
-<button><a routerLink="login" routerLinkActive="active">login</a></button>
-<button><a routerLink="contact" routerLinkActive="active">contact</a></button>
-<button><a routerLink="cocina/mundosalado" routerLinkActive="active">mundosalado</a></button>
-<button><a routerLink="cocina/mundosalado/ecuatoriana" routerLinkActive="active">ecuatoriana</a></button>
-<button><a routerLink="cocina/mundosalado/internacional" routerLinkActive="active">internacional</a></button>
-<button><a routerLink="cocina/mundosalado/creativa" routerLinkActive="active">creativa</a></button>
-<button><a routerLink="cocina/mundodulce" routerLinkActive="active">mundodulce</a></button>
-<button><a routerLink="cocina/mundodulce/panaderia-pasteleria" routerLinkActive="active">panaderia-pasteleria</a></button>
-<button><a routerLink="cocina/mundodulce/helados" routerLinkActive="active">helados</a></button>
-<button><a routerLink="cocina/mundobebidas" routerLinkActive="active">mundobebidas</a></button>
-<button><a routerLink="cocina/mundobebidas/vinos" routerLinkActive="active">vinos</a></button>
-<button><a routerLink="cocina/mundobebidas/cocteles" routerLinkActive="active">cocteles</a></button>
-<button><a routerLink="cocina/mundobebidas/bebidasnaturales" routerLinkActive="active">bebidasnaturales</a></button>
- -->
-<app-footer></app-footer>
+
+<app-footer *ngIf="!isLogin"></app-footer>
