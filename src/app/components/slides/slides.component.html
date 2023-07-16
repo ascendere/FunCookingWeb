@@ -1,0 +1,13 @@
+<carousel class="slide">
+  <slide *ngFor="let item of data; let i = index" >
+    <div class="slide-container">
+      <div class="img-container">
+        <img [src]="item.img" alt="" />
+      </div>
+      <div class="content-container">
+        <h1>{{ item.title }}</h1>
+        <p>{{ item.text }}</p>
+      </div>
+    </div>
+  </slide>
+</carousel>

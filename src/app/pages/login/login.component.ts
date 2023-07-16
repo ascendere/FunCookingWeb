@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -11,11 +11,11 @@ import { AppComponent } from 'src/app/app.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginForm!: FormGroup;
 
-  email: string = "";
-  password: string = "";
+  email: string = '';
+  password: string = '';
 
   constructor(
     private appComponent: AppComponent,
@@ -60,4 +60,8 @@ export class LoginComponent {
     this.msalSevc.loginRedirect();
   }
   /* Loging end */
+
+  ngOnDestroy(): void {
+    this.appComponent.isLogin = false;
+  }
 }

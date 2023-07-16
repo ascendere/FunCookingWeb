@@ -21,3 +21,14 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+div.carousel-indicators button.ng-star-inserted.active {
+  background-color: #fca84e;
+}
+
+div.carousel-indicators button.ng-star-inserted,
+span.icon-prev.carousel-control-prev-icon,
+span.icon-next.carousel-control-next-icon {
+  background-color: #ffd98d;
+  border-radius: 5px;
+}

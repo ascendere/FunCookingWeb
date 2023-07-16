@@ -1,0 +1,15 @@
+.contenedor {
+  display: flex;
+}
+
+.info {
+  background-color: #e69537;
+  width: 50%;
+  padding: 5em 3em;
+  gap: 2em;
+}
+
+.users {
+  width: 50%
+
+}

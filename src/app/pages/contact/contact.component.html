@@ -1,1 +1,36 @@
-<p>contact works!</p>
+<div class="contenedor">
+  <div class="info">
+    <h1>¿Por qué visitarnos?</h1>
+    <p>
+      Somos un grupo que busca expandir la cultura lojana a través de Ecua
+      Taste, el cual proporciona a la comunidad información acerca de los platos
+      más exquisitos de nuestra magnífica ciudad.
+    </p>
+    <p>
+      Es por eso que te invitamos a conocer nuestro equipo y seguir adentrándose
+      más en la comida típica lojana.
+    </p>
+  </div>
+  <div class="users">
+    <carousel>
+      <slide *ngFor="let us of users">
+        <div class="" style="padding: 5em;">
+          <div class="profile" style="display: flex; gap: 1em;">
+            <div class="">
+              <img [src]="us.img" alt="">
+            </div>
+            <div class="text">
+              <h4 class="nombre">{{ us.name }}</h4>
+              <p class="cargo">{{ us.cargo }}</p>
+            </div>
+          </div>
+          <p class="frase">{{ us.frase }}</p>
+          <div class="contacto">
+            <p class="tel"><strong>Teléfono:</strong> {{us.tel}}</p>
+            <p class="correo"><strong>Correo:</strong> {{us.correo}}</p>
+          </div>
+        </div>
+      </slide>
+    </carousel>
+  </div>
+</div>

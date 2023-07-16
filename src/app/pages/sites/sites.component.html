@@ -1,1 +1,12 @@
-<p>sites works!</p>
+<div class="container">
+
+  <app-slides></app-slides>
+
+  <section class="cards-container">
+    <h1>Locales</h1>
+
+    <div class="cards">
+      <app-card *ngFor="let item of data" [data]="item"></app-card>
+    </div>
+  </section>
+</div>

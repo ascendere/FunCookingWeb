@@ -1,15 +1,14 @@
 <div class="encabezado">
   <div class="logo">
-    <h1>Fun Cooking</h1>
+    <img
+      src="./../../../assets/Logos/EcuaTaste.png"
+      alt=""
+      style="height: 2.5em; margin-bottom: 5px"
+    />
+    <h1 style="font-family: Rock Salt;">Fun Cooking</h1>
   </div>
 
   <div class="botones">
-    <button mat-button>
-      <a (click)="redirectToURL('login')" routerLinkActive="active"
-        ><mat-icon>account_circle</mat-icon></a
-      >
-    </button>
-
     <button mat-button>
       <a (click)="redirectToURL('inicio')" routerLinkActive="active">Inicio</a>
     </button>
@@ -17,7 +16,13 @@
 
     <!-- <button mat-button><mat-icon>search</mat-icon></button> -->
 
-    <button mat-button [matMenuTriggerFor]="cocinas" (dblclick)="redirectToURL('cocinas')">Cocinas</button>
+    <button
+      mat-button
+      [matMenuTriggerFor]="cocinas"
+      (dblclick)="redirectToURL('cocinas')"
+    >
+      Cocinas
+    </button>
     <mat-menu #cocinas="matMenu">
       <ng-container *ngFor="let ruta of rutas">
         <button
@@ -59,26 +64,40 @@
 
     <!--  -->
 
-    <button mat-button>
-      <a (click)="redirectToURL('products')" routerLinkActive="active"
-        >LIsta Productos</a
-      >
+    <button mat-button [matMenuTriggerFor]="admin" *ngIf="!isLoggedIn()">
+      Administrador
     </button>
-    <button mat-button>
-      <a (click)="redirectToURL('create-producto')" routerLinkActive="active"
-        >create-producto</a
+    <mat-menu #admin="matMenu">
+      <!-- <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button> -->
+
+      <button mat-menu-item>
+        <a (click)="redirectToURL('products')" routerLinkActive="active"
+          >Lista Productos</a
+        >
+      </button>
+      <button mat-menu-item>
+        <a (click)="redirectToURL('recipes')" routerLinkActive="active"
+          >Lista de Recetas</a
+        >
+      </button>
+    </mat-menu>
+
+    <!--  -->
+
+    <button mat-button *ngIf="!isLoggedIn()">
+      <a (click)="redirectToURL('login')" routerLinkActive="active"
+        ><mat-icon>account_circle</mat-icon></a
       >
     </button>
 
-    <button mat-button>
-      <a (click)="redirectToURL('recipes')" routerLinkActive="active"
-        >LIsta recipes</a
-      >
+    <button mat-button [matMenuTriggerFor]="user" *ngIf="isLoggedIn()">
+      <mat-icon>account_circle</mat-icon>
     </button>
-    <button mat-button>
-      <a (click)="redirectToURL('create-recipe')" routerLinkActive="active"
-        >create-recipe</a
-      >
-    </button>
+    <mat-menu #user="matMenu">
+      <!-- <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button> -->
+      <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+    </mat-menu>
   </div>
 </div>

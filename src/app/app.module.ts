@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-/* import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import {
-  provideFirestore,
-  getFirestore,
-  setDoc,
-  FirestoreModule,
-} from '@angular/fire/firestore'; */
-
 import { MSALInstanceFactory, environment } from '../environments/environment';
 import { InteractionType } from '@azure/msal-browser';
 
@@ -29,7 +21,7 @@ import { FormularioComponent } from './components/formulario/formulario.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SlidesComponent } from './components/slides/slides.component';
 
-import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { CarouselConfig, CarouselModule } from 'ngx-bootstrap/carousel';
 import { CardHomeComponent } from './components/card-home/card-home.component';
 import {
   MSAL_INSTANCE,
@@ -48,9 +40,6 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 import { ProductsListComponent } from './admin/products-list/products-list.component';
-// import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-// import { AngularFireModule } from '@angular/fire/compat';
-// import { FirestoreModule, provideFirestore } from '@angular/fire/firestore';
 
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
@@ -89,11 +78,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     FormsModule,
     ReactiveFormsModule,
     CarouselModule,
-    // FirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     MsalModule,
   ],
@@ -102,6 +89,14 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalService,
     MsalGuard,
     MsalBroadcastService,
+    {
+      provide: CarouselConfig,
+      useValue: {
+        interval: 5000 /* 5seg  next slide */,
+        noPause: true,
+        showindicators: true,
+      },
+    },
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

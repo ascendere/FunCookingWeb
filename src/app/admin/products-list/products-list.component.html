@@ -1,50 +1,27 @@
-<div class="container mt-4">
-  <div class="card" style="width: 5000px; margin-left: auto; margin-right: 0">
-    <div class="card-body" width="500px">
-      <span class="h3">List-Products</span>
-      <!-- <button
-        class="btn btn-dark btn-lg float-right"
-        routerLink="create-producto"
-      >
-        Add
-      </button> -->
+<div class="mt-3">
+  <div class="card" style="width: 100%">
+    <div class="card-body" width="100%">
+      <span class="h3">Lista de Productos</span>
       <button
-        class="btn btn-dark btn-lg float-right"
+        class="btn btn-dark btn-lg float-right mx-4"
         (click)="redirectToURL('create-producto')"
       >
-        Add
+        Agregar
       </button>
       <div>
         <h5 *ngIf="products.length == 0">No data to display</h5>
         <table *ngIf="products.length > 0" class="table table-striped mt-5">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Image</th>
-              <th>ScientificName</th>
-              <th>Calories</th>
-              <th>Fiber</th>
-              <th>Fats</th>
-              <th>Carbohydrates</th>
-              <th>Proteins</th>
-              <th>Lipids</th>
-              <th>FoodGroup</th>
-              <th>Benefits</th>
-              <th>Derivatives</th>
-              <th>Ciudad</th>
-              <th>Micro</th>
-              <th>Super</th>
-              <th>Preparations</th>
-              <th>Classification</th>
-              <th>Combination</th>
-              <th></th>
+              <th>Nombre</th>
+              <th>Imágen</th>
+              <th>Nombre Científico</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let product of products">
               <td class="col">
                 {{ product.name }}
-                <!-- <a [routerLink]="['update-producto/', product.id]">Editar</a> -->
                 <button
                   (click)="redirectToURL('update-producto/' + product.id)"
                 >
@@ -60,92 +37,6 @@
                 </div>
               </td>
               <td>{{ product.scientific_name }}</td>
-              <td>{{ product.calories }} kcal</td>
-              <td>{{ product.fiber }} gr</td>
-              <td>{{ product.fats }} gr</td>
-              <td>{{ product.carbohydrates }} gr</td>
-              <td>{{ product.proteins }} gr</td>
-              <td>{{ product.lipids }} gr</td>
-              <td>{{ product.food_Group }}</td>
-              <td>
-                <ul>
-                  <li *ngFor="let benefit of product.benefitsArray">
-                    {{ benefit }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li *ngFor="let derivative of product.derivativesArray">
-                    {{ derivative }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li *ngFor="let ciudadArray of product.location.ciudadArray">
-                    {{ ciudadArray }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li
-                    *ngFor="
-                      let micromercadoArray of product.location
-                        .micromercadoArray
-                    "
-                  >
-                    {{ micromercadoArray }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li
-                    *ngFor="
-                      let supermercadoArray of product.location
-                        .supermercadoArray
-                    "
-                  >
-                    {{ supermercadoArray }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li *ngFor="let preparation of product.preparationsArray">
-                    {{ preparation }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li
-                    *ngFor="let classification of product.classificationArray"
-                  >
-                    {{ classification }}
-                  </li>
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  <li *ngFor="let combination of product.combinationArray">
-                    {{ combination.name }} - {{ combination.porcentage }}%
-                  </li>
-                </ul>
-              </td>
-              <td></td>
-              <!-- <td>
-                <i
-                  class="fa-sharp fa-solid fa-pen-to-square fa-lg text-info mr-3"
-                  [routerLink]="['/editProducts/', product.id]"
-                ></i>
-                <i
-                  (click)="deleteProducts(product.id)"
-                  class="fa-solid fa-trash fa-lg text-danger"
-                ></i>
-              </td> -->
             </tr>
           </tbody>
         </table>

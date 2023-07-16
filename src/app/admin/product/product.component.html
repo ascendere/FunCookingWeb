@@ -68,7 +68,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="name">Name</label>
+              <label for="name">Nombre:</label>
               <input
                 type="text"
                 id="name"
@@ -80,7 +80,7 @@
             </div>
 
             <div class="form-group">
-              <label for="image">Image</label>
+              <label for="image">Imagen</label>
               <input
                 type="file"
                 (change)="uploadImage($event)"
@@ -104,12 +104,12 @@
                 class="btn btn-danger delete-button"
                 (click)="deleteImage($event, i)"
               >
-                <i class="bi bi-trash"></i> Delete
+                <i class="bi bi-trash"></i> Eliminar
               </button>
             </div>
 
             <div class="form-group">
-              <label for="scientific_name">Scientific Name</label>
+              <label for="scientific_name">Nombre Cinetífico:</label>
               <input
                 type="text"
                 id="scientific_name"
@@ -121,7 +121,7 @@
             </div>
 
             <div class="form-group">
-              <label for="calories">Calories</label>
+              <label for="calories">Calorías:</label>
               <input
                 type="number"
                 id="calories"
@@ -132,7 +132,7 @@
             </div>
 
             <div class="form-group">
-              <label for="fiber">Fiber</label>
+              <label for="fiber">Fibra:</label>
               <input
                 type="number"
                 id="fiber"
@@ -144,7 +144,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="fats">Fats</label>
+              <label for="fats">Grasas:</label>
               <input
                 type="number"
                 id="fats"
@@ -155,7 +155,7 @@
             </div>
 
             <div class="form-group">
-              <label for="carbohydrates">Carbohydrates</label>
+              <label for="carbohydrates">Carbohidratos:</label>
               <input
                 type="number"
                 id="carbohydrates"
@@ -166,7 +166,7 @@
             </div>
 
             <div class="form-group">
-              <label for="proteins">Proteins</label>
+              <label for="proteins">Proteínas:</label>
               <input
                 type="number"
                 id="proteins"
@@ -177,7 +177,7 @@
             </div>
 
             <div class="form-group">
-              <label for="lipids">Lipids</label>
+              <label for="lipids">Lípidos:</label>
               <input
                 type="number"
                 id="lipids"
@@ -188,7 +188,7 @@
             </div>
 
             <div class="form-group">
-              <label for="food_Group">Food Group</label>
+              <label for="food_Group">Grupo alimenticio:</label>
               <input
                 type="text"
                 id="food_Group"
@@ -204,13 +204,13 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="benefitsArray" class="mr-3">Benefits:</label>
+              <label for="benefitsArray" class="mr-3">Beneficios:</label>
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn btn-success mt-2"
                 (click)="addBenefit()"
               >
-                Add Benefit
+                Añadir Beneficio
               </button>
               <div formArrayName="benefitsArray">
                 <div
@@ -229,7 +229,7 @@
                       class="btn btn-danger"
                       (click)="removeBenefit(i)"
                     >
-                      Remove
+                      Eliminar
                     </button>
                   </div>
                 </div>
@@ -237,13 +237,13 @@
             </div>
 
             <div class="form-group">
-              <label for="derivativesArray">Derivatives:</label>
+              <label for="derivativesArray">Derivados:</label>
               <button
                 type="button"
                 class="btn btn-success"
                 (click)="addDerivative()"
               >
-                Add Derivative
+                Añadir Derivado
               </button>
               <div formArrayName="derivativesArray">
                 <div
@@ -265,7 +265,7 @@
                       class="btn btn-danger"
                       (click)="removeDerivative(i)"
                     >
-                      Remove
+                      Eliminar
                     </button>
                   </div>
                 </div>
@@ -280,7 +280,7 @@
                   class="btn btn-success"
                   (click)="addCiudad()"
                 >
-                  Add Ciudad
+                  Añadir Ciudad
                 </button>
                 <div formArrayName="ciudadArray">
                   <div
@@ -302,7 +302,7 @@
                           (click)="removeCiudad(i)"
                           class="btn btn-danger"
                         >
-                          Remove
+                          Eliminar
                         </button>
                       </div>
                     </div>
@@ -317,7 +317,7 @@
                   class="btn btn-success"
                   (click)="addMicromercado()"
                 >
-                  Add Micromercado
+                  Añadir Micromercado
                 </button>
                 <div formArrayName="micromercadoArray">
                   <div
@@ -339,7 +339,7 @@
                           (click)="removeMicromercado(i)"
                           class="btn btn-danger"
                         >
-                          Remove
+                          Eliminar
                         </button>
                       </div>
                     </div>
@@ -354,7 +354,7 @@
                   class="btn btn-success"
                   (click)="addSupermercado()"
                 >
-                  Add Supermercado
+                  Añadir Supermercado
                 </button>
                 <div formArrayName="supermercadoArray">
                   <div
@@ -376,7 +376,7 @@
                           (click)="removeSupermercado(i)"
                           class="btn btn-danger"
                         >
-                          Remove
+                          Eliminar
                         </button>
                       </div>
                     </div>
@@ -386,13 +386,13 @@
             </div>
 
             <div class="form-group mt-2">
-              <label for="preparationsArray">Preparations:</label>
+              <label for="preparationsArray">Preparacion:</label>
               <button
                 type="button"
                 class="btn btn-success"
                 (click)="addPreparations()"
               >
-                Add Preparation
+                Añadir Preparación
               </button>
               <div formArrayName="preparationsArray">
                 <div
@@ -414,7 +414,7 @@
                       class="btn btn-danger"
                       (click)="removePreparations(i)"
                     >
-                      Remove
+                      Eliminar
                     </button>
                   </div>
                 </div>
@@ -426,13 +426,13 @@
         <div class="row">
           <div class="col-md-6 mt-2">
             <div class="form-group">
-              <label for="classificationArray">Classification:</label>
+              <label for="classificationArray">Clasificación:</label>
               <button
                 type="button"
                 class="btn btn-success"
                 (click)="addClassification()"
               >
-                Add Classification
+                Añadir Clasificación
               </button>
               <div formArrayName="classificationArray">
                 <div
@@ -454,7 +454,7 @@
                       class="btn btn-danger"
                       (click)="removeClassification(i)"
                     >
-                      Remove
+                      Eliminar
                     </button>
                   </div>
                 </div>
@@ -462,7 +462,7 @@
             </div>
 
             <div class="form-group">
-              <label for="combination">Combination</label>
+              <label for="combination">Combinación</label>
               <div formArrayName="combinationArray">
                 <div
                   *ngFor="
@@ -495,7 +495,7 @@
                         class="btn btn-danger"
                         (click)="removeCombination(i)"
                       >
-                        Remove
+                        Eliminar
                       </button>
                     </div>
                   </div>
@@ -507,7 +507,7 @@
                   class="btn btn-success"
                   (click)="addCombination()"
                 >
-                  Add Combination
+                  Añadir Combinación
                 </button>
               </div>
             </div>
@@ -517,11 +517,11 @@
           <button
             type="button"
             class="btn btn-secondary btn-lg me-2"
-            routerLink="/list-products"
+            routerLink="/products"
           >
-            Return
+            Volver
           </button>
-          <button type="submit" class="btn btn-dark btn-lg">Add</button>
+          <button type="submit" class="btn btn-dark btn-lg">Añadir</button>
         </div>
       </form>
     </div>

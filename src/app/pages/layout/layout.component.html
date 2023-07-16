@@ -1,12 +1,11 @@
 <div class="container">
-
-  <app-slides [data]="slides"></app-slides>
+  <app-slides></app-slides>
 
   <h1>{{ data.title }}</h1>
 
   <!-- mundos -->
   <section *ngIf="!id">
-    <h3>Páginas</h3>
+    <!-- <h3>Páginas</h3> -->
 
     <div class="cards">
       <app-card *ngFor="let item of data.pages" [data]="item"></app-card>
@@ -15,17 +14,23 @@
 
   <!-- categories -->
   <section class="Categories" *ngIf="!!data.categories && !!id">
-    <h3>Categorias</h3>
-    <ul *ngFor="let cat of data.categories">
-      <li>{{ cat.name }}</li>
-      <ul *ngFor="let item of cat.items">
-            <li>{{item.name}}</li>
-        </ul>
-    </ul>
+    <!-- <h3>Categorias</h3> -->
+    <div *ngFor="let cat of data.categories" style="margin-bottom: 2em;">
+      <h4>{{ cat.name }}</h4>
+      <!-- <ul *ngFor="let item of cat.items">
+        <li>{{ item.name }}</li>
+      </ul> -->
+      <div class="cards">
+        <app-card *ngFor="let item of cat.items" [data]="item"></app-card>
+      </div>
+    </div>
   </section>
 
   <section *ngIf="!data.categories && !!id">
-    <h2>Items:</h2>
-    <li *ngFor="let item of data.items">{{ item.name }}</li>
+    <!-- <h2>Items:</h2> -->
+    <!-- <li *ngFor="let item of data.items">{{ item.name }}</li> -->
+    <div class="cards">
+      <app-card *ngFor="let item of data.items" [data]="item"></app-card>
+    </div>
   </section>
 </div>

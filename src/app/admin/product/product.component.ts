@@ -21,8 +21,8 @@ export class ProductComponent implements OnInit {
   productList: any[] = [];
 
   id: string | null;
-  titleP = 'Products';
-  titleR = 'Edit Products';
+  titleP = 'Productos';
+  titleR = 'Editar Producto';
 
   products: {
     name: string;

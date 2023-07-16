@@ -33,7 +33,7 @@ export class RecipeComponent implements OnInit {
   };
 
   id: string | null;
-  titleR = 'Add Recipes';
+  titleR = 'Añadir Receta';
 
   constructor(
     private fb: FormBuilder,
@@ -251,7 +251,7 @@ export class RecipeComponent implements OnInit {
   }
 
   esEditR() {
-    this.titleR = 'Edit Recipes';
+    this.titleR = 'Editar Receta';
     if (this.id !== null) {
       this._recipesService.getRecipe(this.id).subscribe((data) => {
         console.log(data.payload.data()?.name);

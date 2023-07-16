@@ -6,5 +6,11 @@
 }
 
 .card{
-  max-width: 300px;
+  width: 300px;
+}
+
+img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
 }

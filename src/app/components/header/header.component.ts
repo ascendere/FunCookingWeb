@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { MsalService } from '@azure/msal-angular';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -49,20 +51,30 @@ export class HeaderComponent {
           route: 'cocina/mundobebidas/vinos',
         },
         {
-          name: 'Cocteles',
-          route: 'cocina/mundobebidas/cocteles',
+          name: 'Coctelería',
+          route: 'cocina/mundobebidas/cocteleria',
         },
         {
           name: 'Bebidas naturales',
-          route: 'cocina/mundobebidas/bebidasnaturales',
+          route: 'cocina/mundobebidas/naturales',
         },
       ],
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private msalSevc: MsalService) {
+    // console.log(this.isLoggedIn())
+  }
 
   redirectToURL(url: string) {
-    this.router.navigateByUrl(url);
+    this.router.navigate([url]);
+  }
+
+  isLoggedIn() {
+    return this.msalSevc.instance.getActiveAccount() != null;
+  }
+
+  logout() {
+    this.msalSevc.loginRedirect();
   }
 }

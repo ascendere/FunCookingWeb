@@ -1,9 +1,11 @@
 .encabezado {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background-color: #fa9c30;
-  padding:0 3em;
+  padding: 0 3em;
+  max-height: 3.5em;
 }
 
 a {
@@ -16,3 +18,9 @@ a {
   gap: 10px;
 } */
 
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
