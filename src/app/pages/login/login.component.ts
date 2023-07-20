@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { list } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -26,6 +27,7 @@ export class LoginComponent implements OnDestroy {
     private authService: AuthService
   ) {
     this.appComponent.isLogin = true;
+    console.log(this.msalSevc.instance.getActiveAccount())
   }
 
 
@@ -40,10 +42,12 @@ export class LoginComponent implements OnDestroy {
     } else {
       this.msalSevc.loginPopup().subscribe((response: AuthenticationResult) => {
         this.msalSevc.instance.setActiveAccount(response.account);
+        alert(JSON.stringify(response.account))
         this.router.navigateByUrl('products');
       });
     }
   }
+
 
   logout() {
     this.msalSevc.loginRedirect();

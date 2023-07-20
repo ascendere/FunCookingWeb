@@ -79,7 +79,7 @@
               />
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-2">
               <label for="image">Imagen</label>
               <input
                 type="file"
@@ -90,10 +90,10 @@
             </div>
 
             <div
-              class="image-container"
+              class="image-container my-2"
               *ngFor="let imageItem of products.image; let i = index"
             >
-              <div class="image-wrapper">
+              <div class="image-wrapper my-2">
                 <img
                   [src]="imageItem + '?cache=' + i"
                   width="150"
@@ -119,7 +119,12 @@
                 pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
               />
             </div>
+          </div>
 
+          <div class="col-md-6">
+            <div>
+              <h5 style="display: flex;">Valor nutricional:</h5>
+            </div>
             <div class="form-group">
               <label for="calories">Calorías:</label>
               <input
@@ -141,8 +146,6 @@
                 placeholder="Fiber"
               />
             </div>
-          </div>
-          <div class="col-md-6">
             <div class="form-group">
               <label for="fats">Grasas:</label>
               <input
@@ -236,7 +239,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mt-2">
               <label for="derivativesArray">Derivados:</label>
               <button
                 type="button"
@@ -277,7 +280,7 @@
                 <label for="ciudadArray">Ciudad:</label>
                 <button
                   type="button"
-                  class="btn btn-success"
+                  class="btn btn-success my-2"
                   (click)="addCiudad()"
                 >
                   Añadir Ciudad
@@ -314,7 +317,7 @@
                 <label for="micromercadoArray">Micromercado:</label>
                 <button
                   type="button"
-                  class="btn btn-success"
+                  class="btn btn-success my-2"
                   (click)="addMicromercado()"
                 >
                   Añadir Micromercado
@@ -347,11 +350,11 @@
                 </div>
               </div>
 
-              <div class="form-group mt-2">
+              <div class="form-group">
                 <label for="supermercadoArray">Supermercado:</label>
                 <button
                   type="button"
-                  class="btn btn-success"
+                  class="btn btn-success my-2"
                   (click)="addSupermercado()"
                 >
                   Añadir Supermercado
