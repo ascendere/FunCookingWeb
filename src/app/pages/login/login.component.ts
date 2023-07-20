@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { AppComponent } from 'src/app/app.component';
+import { AuthService } from 'src/app/services/auth.service';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -12,46 +15,32 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnDestroy {
-  loginForm!: FormGroup;
 
   email: string = '';
   password: string = '';
 
   constructor(
     private appComponent: AppComponent,
-    private formBuilder: FormBuilder,
     private msalSevc: MsalService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.appComponent.isLogin = true;
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
   }
 
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    const email = this.loginForm.value.email;
-    const password = this.loginForm.value.password;
-    //
-  }
 
   /* Loging start */
   isLoggedIn() {
     return this.msalSevc.instance.getActiveAccount() != null;
   }
 
-  login() {
+  login_msal() {
     if (this.isLoggedIn()) {
-      this.router.navigateByUrl('inicio');
+      this.router.navigateByUrl('products');
     } else {
       this.msalSevc.loginPopup().subscribe((response: AuthenticationResult) => {
         this.msalSevc.instance.setActiveAccount(response.account);
-        this.router.navigateByUrl('inicio');
+        this.router.navigateByUrl('products');
       });
     }
   }
@@ -60,6 +49,32 @@ export class LoginComponent implements OnDestroy {
     this.msalSevc.loginRedirect();
   }
   /* Loging end */
+
+  // login
+
+  login() {
+    if (this.email.length == 0 || this.password.length == 0) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Debe ingresar un correo y contraseña',
+        icon: 'error',
+      });
+      return;
+    }
+
+    this.authService
+      .loginEmailPassword(this.email, this.password)
+      .then((res) => {
+        this.router.navigateByUrl('/products');
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'El correo o la constraseña son incorrectos',
+        });
+      });
+  }
 
   ngOnDestroy(): void {
     this.appComponent.isLogin = false;

@@ -5,7 +5,7 @@
       alt=""
       style="height: 2.5em; margin-bottom: 5px"
     />
-    <h1 style="font-family: Rock Salt;">Fun Cooking</h1>
+    <h1 style="font-family: Rock Salt">Fun Cooking</h1>
   </div>
 
   <div class="botones">
@@ -64,7 +64,8 @@
 
     <!--  -->
 
-    <button mat-button [matMenuTriggerFor]="admin" *ngIf="!isLoggedIn()">
+    <!--Aparece o no el botón de admin-->
+    <button mat-button [matMenuTriggerFor]="admin" *ngIf="isLoggedIn()">
       Administrador
     </button>
     <mat-menu #admin="matMenu">

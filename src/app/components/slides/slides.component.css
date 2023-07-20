@@ -21,6 +21,7 @@ img {
 
 .content-container{
   width: 50%;
+  max-width: 400px;
   display: grid;
   align-items: center;
   justify-content: start;

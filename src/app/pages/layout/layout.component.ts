@@ -190,7 +190,7 @@ const MundosData: any[] = [
         description:
           'Panadería y pastelería que se puede degustar en diferentes lugares...',
         url: 'panaderia-pasteleria',
-        img: './../../../assets/imgs-funCooking/REPOSTERIA.jpg',
+        img: './../../../assets/imgs-funCooking/REPOSTERIA.png',
         items: [
           {
             title: 'Bizcochuelos',
@@ -224,7 +224,7 @@ const MundosData: any[] = [
         description:
           'Heladería la cual se puede degustar en diferentes lugares...',
         url: 'heladeria',
-        img: './../../../assets/imgs-funCooking/HELADERIA.jpg',
+        img: './../../../assets/imgs-funCooking/HELADERIA.png',
         items: [
           {
             title: 'Helados Artesanales ',
@@ -279,7 +279,7 @@ const MundosData: any[] = [
         description:
           'Cocteles los cuales se pueden degustar en diferentes sitios...',
         url: 'cocteleria',
-        img: './../../../assets/imgs-funCooking/COCTELERIA.jpg',
+        img: './../../../assets/imgs-funCooking/COCTELERIA.png',
         items: [
           {
             title: 'Horchata',
@@ -332,7 +332,7 @@ const MundosData: any[] = [
             title: 'Morocho',
             description:
               'Con su singular aroma y exquisito sabor se ha popularizado en todo Ecuador. Se elabora con maíz morocho, leche, panela y canela y se suele servir con pan de yuca.',
-            img: './../../../assets/imgs-funCooking/JUGO-DE-CAÑA.png',
+            img: '',
 
             url: '',
           },

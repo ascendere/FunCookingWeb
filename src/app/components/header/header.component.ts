@@ -1,14 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 
 import { MsalService } from '@azure/msal-angular';
+import { AuthService } from 'src/app/services/auth.service';
+
+import { switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   rutas = [
     {
       name: 'Mundo Salado',
@@ -62,12 +67,28 @@ export class HeaderComponent {
     },
   ];
 
-  constructor(private router: Router, private msalSevc: MsalService) {
-    // console.log(this.isLoggedIn())
+
+  constructor(
+    private router: Router,
+    private msalSevc: MsalService,
+    private authService: AuthService,
+    private auth: AngularFireAuth
+  ) {}
+
+  ngOnInit(): void {
+
   }
 
   redirectToURL(url: string) {
     this.router.navigate([url]);
+  }
+
+  isLogged(): boolean {
+    return this.msalSevc.instance.getActiveAccount() != null;
+  }
+
+  isLoggedFirebase(): boolean {
+    return this.auth.authState != null;
   }
 
   isLoggedIn() {
@@ -75,6 +96,10 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.msalSevc.loginRedirect();
+    if (this.msalSevc.instance.getActiveAccount() != null) {
+      this.msalSevc.logoutRedirect();
+    } else {
+      this.authService.logout();
+    }
   }
 }

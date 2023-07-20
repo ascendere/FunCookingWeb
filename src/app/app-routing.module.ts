@@ -10,6 +10,7 @@ import { ProductComponent } from './admin/product/product.component';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { ProductsListComponent } from './admin/products-list/products-list.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -46,15 +47,35 @@ const routes: Routes = [
     component: LayoutComponent,
   },
   {
-    path: 'formulario',
-    component: FormularioComponent,
+    path: 'products',
+    component: ProductsListComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'products', component: ProductsListComponent },
-  { path: 'create-producto', component: ProductComponent },
-  { path: 'update-producto/:id', component: ProductComponent },
-  { path: 'recipes', component: RecipesListComponent },
-  { path: 'create-recipe', component: RecipeComponent },
-  { path: 'update-recipe/:id', component: RecipeComponent },
+  {
+    path: 'create-producto',
+    component: ProductComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'update-producto/:id',
+    component: ProductComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'recipes',
+    component: RecipesListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'create-recipe',
+    component: RecipeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'update-recipe/:id',
+    component: RecipeComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
