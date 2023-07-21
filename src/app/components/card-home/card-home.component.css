@@ -15,6 +15,7 @@ img {
   object-fit: cover;
 }
 
+
 .transparent-button {
   /* Añadimos cursor: pointer para indicar que es interactivo */
   cursor: pointer;
@@ -24,6 +25,7 @@ img {
 
 .transparent-button {
   /* Estilos iniciales */
+
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -51,4 +53,16 @@ img {
 .transparent-button:hover::after {
   transform: scale(5.2);
   opacity: 0;
+}
+
+
+
+.divdecontent{
+  color: aqua;
+  box-shadow: 0;
+  border-radius: 30px;
+}
+
+.card-transparent-button{
+  box-shadow: 0;
 }

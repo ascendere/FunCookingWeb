@@ -5,11 +5,15 @@
     <mat-card-header>
       <mat-card-title><h4>{{ item.title }}</h4></mat-card-title>
     </mat-card-header>
-
+    <div class="imageContainer">
     <img mat-card-image [src]="item.img" alt="">
 
-    <mat-card-content>
-      <p>{{ item.text }}</p>
-    </mat-card-content>
+    </div>
+
+      <mat-card-content>
+        <p>{{ item.text }}</p>
+      </mat-card-content>
+
+
   </mat-card>
 </div>
