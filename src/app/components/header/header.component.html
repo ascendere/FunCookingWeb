@@ -59,15 +59,18 @@
       Locales
     </button>
 
-    <button mat-button  (click)="redirectToURL('contacto')" routerLinkActive="active">
-
-Contactos
+    <button
+      mat-button
+      (click)="redirectToURL('contacto')"
+      routerLinkActive="active"
+    >
+      Contactos
     </button>
 
     <!--  -->
 
     <!--Aparece o no el botón de admin-->
-    <button mat-button [matMenuTriggerFor]="admin" *ngIf="isLoggedIn()">
+    <button mat-button [matMenuTriggerFor]="admin" *ngIf="!isLoggedIn()">
       Administrador
     </button>
     <mat-menu #admin="matMenu">
@@ -88,10 +91,13 @@ Contactos
 
     <!--  -->
 
-    <button mat-button *ngIf="!isLoggedIn()" (click)="redirectToURL('login')" routerLinkActive="active">
-      <a
-        ><mat-icon>account_circle</mat-icon></a
-      >
+    <button
+      mat-button
+      *ngIf="!isLoggedIn()"
+      (click)="redirectToURL('login')"
+      routerLinkActive="active"
+    >
+      <a><mat-icon>account_circle</mat-icon></a>
     </button>
 
     <button mat-button [matMenuTriggerFor]="user" *ngIf="isLoggedIn()">

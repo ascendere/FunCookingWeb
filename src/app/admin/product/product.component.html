@@ -68,7 +68,11 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="name">Nombre:</label>
+              <div class="input-container">
+                <label class="etiqueta" for="name"
+                  ><p class="campo">Nombre:</p></label
+                >
+              </div>
               <input
                 type="text"
                 id="name"
@@ -76,17 +80,28 @@
                 formControlName="name"
                 placeholder="Name"
                 pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                style="border: 2px solid orange"
               />
             </div>
 
-            <div class="form-group my-2">
-              <label for="image">Imagen</label>
+            <div class="form-group mt-2">
+              <div class="input-container">
+                <label class="etiqueta" for="image"
+                  ><p class="campo">Imagen:</p></label
+                >
+              </div>
               <input
                 type="file"
                 (change)="uploadImage($event)"
                 accept="image/*"
                 multiple
+                id="uploadInput"
+                style="display: none"
               />
+
+              <label for="uploadInput" class="custom-upload-button">
+                Elegir archivo
+              </label>
             </div>
 
             <div
@@ -101,7 +116,7 @@
                 />
               </div>
               <button
-                class="btn btn-danger delete-button"
+                class="btn delete-button"
                 (click)="deleteImage($event, i)"
               >
                 <i class="bi bi-trash"></i> Eliminar
@@ -109,7 +124,12 @@
             </div>
 
             <div class="form-group">
-              <label for="scientific_name">Nombre Cinetífico:</label>
+              <div class="input-container">
+                <label class="etiqueta" for="scientific_name">
+                  <p class="campo">Nombre Científico:</p></label
+                >
+              </div>
+
               <input
                 type="text"
                 id="scientific_name"
@@ -117,81 +137,89 @@
                 formControlName="scientific_name"
                 placeholder="Scientific Name"
                 pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                style="border: 2px solid orange; margin-bottom: 14px"
               />
             </div>
           </div>
 
+
           <div class="col-md-6">
             <div>
-              <h5 style="display: flex;">Valor nutricional:</h5>
+              <h5 style="display: flex; font-size: medium;"><b>Nutricional: </b></h5>
             </div>
             <div class="form-group">
-              <label for="calories">Calorías:</label>
+              <label for="calories"><b>Calorías (kcal)</b></label>
               <input
                 type="number"
                 id="calories"
                 class="form-control"
                 formControlName="calories"
                 placeholder="Calories"
+                style="border: 2px solid orange"
               />
             </div>
 
             <div class="form-group">
-              <label for="fiber">Fibra:</label>
+              <label for="fiber"><b>Fibra (g)</b></label>
               <input
                 type="number"
                 id="fiber"
                 class="form-control"
                 formControlName="fiber"
                 placeholder="Fiber"
+                style="border: 2px solid orange"
               />
             </div>
             <div class="form-group">
-              <label for="fats">Grasas:</label>
+              <label for="fats"><b>Grasas (g)</b></label>
               <input
                 type="number"
                 id="fats"
                 class="form-control"
                 formControlName="fats"
                 placeholder="Fats"
+                style="border: 2px solid orange"
               />
             </div>
 
             <div class="form-group">
-              <label for="carbohydrates">Carbohidratos:</label>
+              <label for="carbohydrates"><b>Carbohidratos (g)</b></label>
               <input
                 type="number"
                 id="carbohydrates"
                 class="form-control"
                 formControlName="carbohydrates"
                 placeholder="Carbohydrates"
+                style="border: 2px solid orange"
               />
             </div>
 
             <div class="form-group">
-              <label for="proteins">Proteínas:</label>
+              <label for="proteins"><b>Proteínas (g)</b></label>
               <input
                 type="number"
                 id="proteins"
                 class="form-control"
                 formControlName="proteins"
                 placeholder="Proteins"
+                style="border: 2px solid orange"
               />
             </div>
 
             <div class="form-group">
-              <label for="lipids">Lípidos:</label>
+              <label for="lipids"><b>Lípidos (g)</b></label>
               <input
                 type="number"
                 id="lipids"
                 class="form-control"
                 formControlName="lipids"
                 placeholder="Lipids"
+                style="border: 2px solid orange"
               />
             </div>
 
             <div class="form-group">
-              <label for="food_Group">Grupo alimenticio:</label>
+              <label for="food_Group"><b>Grupo alimenticio</b></label>
               <input
                 type="text"
                 id="food_Group"
@@ -199,6 +227,7 @@
                 formControlName="food_Group"
                 placeholder="FoodGroup"
                 pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                style="border: 2px solid orange"
               />
             </div>
           </div>
@@ -207,13 +236,17 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="benefitsArray" class="mr-3">Beneficios:</label>
+              <div class="input-container">
+                <label class="etiqueta" for="benefitsArray">
+                  <p class="campo">Beneficios:</p></label
+                >
+              </div>
               <button
                 type="button"
-                class="btn btn-success mt-2"
+                class="btn agg-button"
                 (click)="addBenefit()"
               >
-                Añadir Beneficio
+                Agregar
               </button>
               <div formArrayName="benefitsArray">
                 <div
@@ -225,11 +258,12 @@
                     class="form-control"
                     [formControlName]="i"
                     pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                    style="border: 2px solid orange"
                   />
                   <div class="input-group-append">
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn delete-button"
                       (click)="removeBenefit(i)"
                     >
                       Eliminar
@@ -240,13 +274,17 @@
             </div>
 
             <div class="form-group mt-2">
-              <label for="derivativesArray">Derivados:</label>
+              <div class="input-container">
+                <label class="etiqueta" for="derivativesArray">
+                  <p class="campo">Derivados:</p></label
+                >
+              </div>
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn agg-button"
                 (click)="addDerivative()"
               >
-                Añadir Derivado
+                Agregar
               </button>
               <div formArrayName="derivativesArray">
                 <div
@@ -261,11 +299,12 @@
                     class="form-control"
                     [formControlName]="i"
                     pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                    style="border: 2px solid orange; margin-bottom: 14px"
                   />
                   <div class="input-group-append">
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn delete-button"
                       (click)="removeDerivative(i)"
                     >
                       Eliminar
@@ -277,13 +316,17 @@
 
             <div formGroupName="location">
               <div class="form-group">
-                <label for="ciudadArray">Ciudad:</label>
+                <div class="input-container">
+                  <label class="etiqueta" for="ciudadArray">
+                    <p class="campo">Ciudad:</p></label
+                  >
+                </div>
                 <button
                   type="button"
-                  class="btn btn-success my-2"
+                  class="btn agg-button"
                   (click)="addCiudad()"
                 >
-                  Añadir Ciudad
+                  Agregar
                 </button>
                 <div formArrayName="ciudadArray">
                   <div
@@ -291,19 +334,20 @@
                       let ciudad of getCiudadArray().controls;
                       let i = index
                     "
-                    class="form-row"
+                    class="input-group mt-2"
                   >
                     <div class="input-group">
                       <input
                         type="text"
                         [formControlName]="i"
                         class="form-control"
+                        style="border: 2px solid orange; margin-bottom: 14px"
                       />
                       <div class="input-group-append">
                         <button
                           type="button"
                           (click)="removeCiudad(i)"
-                          class="btn btn-danger"
+                          class="btn delete-button"
                         >
                           Eliminar
                         </button>
@@ -314,13 +358,17 @@
               </div>
 
               <div class="form-group">
-                <label for="micromercadoArray">Micromercado:</label>
+                <div class="input-container">
+                  <label class="etiqueta" for="micromercadoArray">
+                    <p class="campo">Micromercado:</p></label
+                  >
+                </div>
                 <button
                   type="button"
-                  class="btn btn-success my-2"
+                  class="btn agg-button"
                   (click)="addMicromercado()"
                 >
-                  Añadir Micromercado
+                  Agregar
                 </button>
                 <div formArrayName="micromercadoArray">
                   <div
@@ -328,19 +376,20 @@
                       let micromercado of getMicromercadoArray().controls;
                       let i = index
                     "
-                    class="form-row"
+                    class="imput-group mt-2"
                   >
                     <div class="input-group">
                       <input
                         type="text"
                         [formControlName]="i"
                         class="form-control"
+                        style="border: 2px solid orange; margin-bottom: 14px"
                       />
                       <div class="input-group-append">
                         <button
                           type="button"
                           (click)="removeMicromercado(i)"
-                          class="btn btn-danger"
+                          class="btn delete-button"
                         >
                           Eliminar
                         </button>
@@ -350,37 +399,45 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <label for="supermercadoArray">Supermercado:</label>
-                <button
-                  type="button"
-                  class="btn btn-success my-2"
-                  (click)="addSupermercado()"
-                >
-                  Añadir Supermercado
-                </button>
-                <div formArrayName="supermercadoArray">
-                  <div
-                    *ngFor="
-                      let supermercado of getSupermercadoArray().controls;
-                      let i = index
-                    "
-                    class="form-row"
-                  >
-                    <div class="input-group">
-                      <input
-                        type="text"
-                        [formControlName]="i"
-                        class="form-control"
-                      />
-                      <div class="input-group-append">
-                        <button
-                          type="button"
-                          (click)="removeSupermercado(i)"
-                          class="btn btn-danger"
-                        >
-                          Eliminar
-                        </button>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="input-container">
+                      <label class="etiqueta" for="supermercadoArray">
+                        <p class="campo">Supermercado:</p></label
+                      >
+                    </div>
+                    <button
+                      type="button"
+                      class="btn agg-button"
+                      (click)="addSupermercado()"
+                    >
+                      Agregar
+                    </button>
+                    <div formArrayName="supermercadoArray">
+                      <div
+                        *ngFor="
+                          let supermercado of getSupermercadoArray().controls;
+                          let i = index"
+                        class="imput-group mt-2"
+                      >
+                        <div class="input-group">
+                          <input
+                            type="text"
+                            [formControlName]="i"
+                            class="form-control"
+                            style="border: 2px solid orange"
+                          />
+                          <div class="input-group-append">
+                            <button
+                              type="button"
+                              (click)="removeSupermercado(i)"
+                              class="btn delete-button"
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -389,13 +446,17 @@
             </div>
 
             <div class="form-group mt-2">
-              <label for="preparationsArray">Preparacion:</label>
+              <div class="input-container">
+                <label class="etiqueta" for="preparationsArray">
+                  <p class="campo">Preparacion:</p></label
+                >
+              </div>
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn agg-button"
                 (click)="addPreparations()"
               >
-                Añadir Preparación
+                Agregar
               </button>
               <div formArrayName="preparationsArray">
                 <div
@@ -410,11 +471,12 @@
                     class="form-control"
                     [formControlName]="i"
                     pattern="[[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                    style="border: 2px solid orange"
                   />
                   <div class="input-group-append">
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn delete-button"
                       (click)="removePreparations(i)"
                     >
                       Eliminar
@@ -429,13 +491,17 @@
         <div class="row">
           <div class="col-md-6 mt-2">
             <div class="form-group">
-              <label for="classificationArray">Clasificación:</label>
+              <div class="input-container">
+                <label class="etiqueta" for="classificationArray">
+                  <p class="campo">Clasificación:</p></label
+                >
+              </div>
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn agg-button"
                 (click)="addClassification()"
               >
-                Añadir Clasificación
+                Agregar
               </button>
               <div formArrayName="classificationArray">
                 <div
@@ -443,6 +509,7 @@
                     let classification of classificationArrayControls;
                     let i = index
                   "
+
                   class="input-group mt-2"
                 >
                   <input
@@ -450,11 +517,12 @@
                     class="form-control"
                     [formControlName]="i"
                     pattern="[a-zA-Z\sáéíóúÁÉÍÓÚñÑ()\[\],.-]+"
+                    style="border: 2px solid orange; margin-bottom: 14px"
                   />
                   <div class="input-group-append">
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn delete-button"
                       (click)="removeClassification(i)"
                     >
                       Eliminar
@@ -465,7 +533,20 @@
             </div>
 
             <div class="form-group">
-              <label for="combination">Combinación</label>
+              <div class="input-container">
+                <label class="etiqueta" for="combination">
+                  <p class="campo">Combinación:</p></label
+                >
+              </div>
+              <div class="mt-2">
+                <button
+                  type="button"
+                  class="btn agg-button"
+                  (click)="addCombination()"
+                >
+                  Agregar
+                </button>
+              </div>
               <div formArrayName="combinationArray">
                 <div
                   *ngFor="
@@ -482,6 +563,7 @@
                         class="form-control"
                         formControlName="name"
                         placeholder="Name"
+                        style="border: 2px solid orange; margin-bottom: 14px"
                       />
                     </div>
                     <div class="col">
@@ -490,12 +572,13 @@
                         class="form-control"
                         formControlName="porcentage"
                         placeholder="Porcentage"
+                        style="border: 2px solid orange"
                       />
                     </div>
                     <div class="col">
                       <button
                         type="button"
-                        class="btn btn-danger"
+                        class="btn delete-button"
                         (click)="removeCombination(i)"
                       >
                         Eliminar
@@ -504,27 +587,18 @@
                   </div>
                 </div>
               </div>
-              <div class="mt-2">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  (click)="addCombination()"
-                >
-                  Añadir Combinación
-                </button>
-              </div>
             </div>
           </div>
         </div>
-        <div class="mt-3 gap-4">
+        <div class="mt-3 gap-4 button-container">
           <button
             type="button"
-            class="btn btn-secondary btn-lg me-2"
+            class="btn return-button"
             routerLink="/products"
           >
             Volver
           </button>
-          <button type="submit" class="btn btn-dark btn-lg">Añadir</button>
+          <button type="submit" class="btn save-button">Añadir</button>
         </div>
       </form>
     </div>

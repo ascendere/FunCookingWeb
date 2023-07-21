@@ -7,6 +7,8 @@ import { MsalService } from '@azure/msal-angular';
 import { AuthenticationResult } from '@azure/msal-browser';
 import { AppComponent } from 'src/app/app.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { switchMap, take } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 
@@ -16,7 +18,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnDestroy {
-
   email: string = '';
   password: string = '';
 
@@ -24,12 +25,26 @@ export class LoginComponent implements OnDestroy {
     private appComponent: AppComponent,
     private msalSevc: MsalService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private auth: AngularFireAuth
   ) {
     this.appComponent.isLogin = true;
-    console.log(this.msalSevc.instance.getActiveAccount())
+    // console.log(this.msalSevc.instance.getActiveAccount())
+    console.log(
+      this.auth.authState.pipe(
+        take(1),
+        switchMap(async (authState) => {
+          if (authState) {
+            return true;
+          } else {
+            localStorage.clear();
+            this.router.navigate(['/login']);
+            return false;
+          }
+        })
+      ).subscribe()
+    );
   }
-
 
   /* Loging start */
   isLoggedIn() {
@@ -40,14 +55,17 @@ export class LoginComponent implements OnDestroy {
     if (this.isLoggedIn()) {
       this.router.navigateByUrl('products');
     } else {
-      this.msalSevc.loginPopup().subscribe((response: AuthenticationResult) => {
+      this.authService.signInMicrosoft().then((data)=>{
+        console.log(data.additionalUserInfo?.profile)
+      })
+     /*  this.msalSevc.loginPopup().subscribe((response: AuthenticationResult) => {
         this.msalSevc.instance.setActiveAccount(response.account);
-        alert(JSON.stringify(response.account))
+        alert(JSON.stringify(response.account));
         this.router.navigateByUrl('products');
-      });
+      }); */
+
     }
   }
-
 
   logout() {
     this.msalSevc.loginRedirect();

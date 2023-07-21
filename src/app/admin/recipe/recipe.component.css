@@ -1,0 +1,80 @@
+.input-container {
+  display: flex;
+  align-items: center;
+
+}
+.etiqueta {
+  flex: 1;
+  text-align: left;
+  margin-right: 10px;
+  font-weight: 800px;
+}
+
+.campo{
+  font-weight: 600;
+
+}
+.custom-upload-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid black;
+  background-color: orange;
+  color: white;
+  cursor: pointer;
+  border-radius: 7px;
+
+}
+
+.custom-upload-button:hover {
+  background-color: darkorange;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+
+}
+
+.delete-button {
+  background-color: #FF7A7A;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 7px;
+  border: 1px solid black;
+}
+
+.agg-button {
+  background-color: #88F077;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 7px;
+  border: 1px solid black;
+}
+
+
+.return-button{
+  background-color: #FCA84E;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.save-button{
+  background-color: white;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}

@@ -120,7 +120,7 @@ const MundosData: any[] = [
                 title: 'Chanfaina',
                 description:
                   'La chanfaina es un plato de origen español que fue introducido en el Ecuador con la conquista. Este plato está basado en vísceras picadas, que pueden ser de chancho, de borrego, de res, o de otro animal.',
-                img: '',
+                img: './../../../assets/imgs-funCooking/CHANFAINA.jpg',
                 url: '',
               },
               {
@@ -299,7 +299,7 @@ const MundosData: any[] = [
             title: 'Morocho',
             description:
               'Con su singular aroma y exquisito sabor se ha popularizado en todo Ecuador. Se elabora con maíz morocho, leche, panela y canela y se suele servir con pan de yuca.',
-            img: '',
+            img: './../../../assets/imgs-funCooking/MOROCHO.jpg',
             url: '',
           },
         ],
