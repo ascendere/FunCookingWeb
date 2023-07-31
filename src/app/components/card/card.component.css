@@ -28,10 +28,6 @@ a {
   transform: rotateY(180deg);
 }
 
-.flip-card-front {
-  /* background-color: #e69537; */
-}
-
 .flip-card {
   background-color: transparent;
   perspective: 1000px;

@@ -9,6 +9,7 @@ import { AppComponent } from 'src/app/app.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { switchMap, take } from 'rxjs/operators';
+import { ProductsService } from 'src/app/services/products.service';
 
 import Swal from 'sweetalert2';
 
@@ -26,23 +27,26 @@ export class LoginComponent implements OnDestroy {
     private msalSevc: MsalService,
     private router: Router,
     private authService: AuthService,
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    private ProductsService: ProductsService
   ) {
     this.appComponent.isLogin = true;
     // console.log(this.msalSevc.instance.getActiveAccount())
     console.log(
-      this.auth.authState.pipe(
-        take(1),
-        switchMap(async (authState) => {
-          if (authState) {
-            return true;
-          } else {
-            localStorage.clear();
-            this.router.navigate(['/login']);
-            return false;
-          }
-        })
-      ).subscribe()
+      this.auth.authState
+        .pipe(
+          take(1),
+          switchMap(async (authState) => {
+            if (authState) {
+              return true;
+            } else {
+              localStorage.clear();
+              this.router.navigate(['/login']);
+              return false;
+            }
+          })
+        )
+        .subscribe()
     );
   }
 
@@ -53,17 +57,30 @@ export class LoginComponent implements OnDestroy {
 
   login_msal() {
     if (this.isLoggedIn()) {
-      this.router.navigateByUrl('products');
+      this.router.navigateByUrl('inicio');
     } else {
-      this.authService.signInMicrosoft().then((data)=>{
-        console.log(data.additionalUserInfo?.profile)
-      })
-     /*  this.msalSevc.loginPopup().subscribe((response: AuthenticationResult) => {
-        this.msalSevc.instance.setActiveAccount(response.account);
-        alert(JSON.stringify(response.account));
-        this.router.navigateByUrl('products');
-      }); */
-
+      this.authService.signInMicrosoft().then((data) => {
+        if (data.additionalUserInfo?.isNewUser) {
+          // Una vez que el usuario se ha autenticado con Microsoft, guardamos los datos en Firebase
+          this.authService
+            .userFirebase(data)
+            .then(() => {
+              console.log(
+                'Datos de usuario guardados correctamente en Firebase.'
+              );
+              // Luego de guardar los datos, redirige a la página deseada
+              this.router.navigateByUrl('inicio');
+            })
+            .catch((error) => {
+              console.error(
+                'Error al guardar los datos de usuario en Firebase:',
+                error
+              );
+            });
+        }else{
+          this.router.navigateByUrl('inicio');
+        }
+      });
     }
   }
 
@@ -97,7 +114,6 @@ export class LoginComponent implements OnDestroy {
         });
       });
   }
-
   ngOnDestroy(): void {
     this.appComponent.isLogin = false;
   }

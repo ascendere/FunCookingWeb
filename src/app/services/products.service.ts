@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+
+  doc: String = '0';
   constructor(private firestore: AngularFirestore) {}
 
   agregarProduct(products: any): Promise<any> {
@@ -13,10 +15,20 @@ export class ProductsService {
   }
 
   getProducts(): Observable<any> {
+    // console.log(this.firestore.collection('products', (ref) => ref.orderBy('DateCreate', 'asc')).snapshotChanges());
+
     return this.firestore
       .collection('products', (ref) => ref.orderBy('DateCreate', 'asc'))
       .snapshotChanges();
   }
+
+  getRoles(){
+
+    // console.log(this.firestore.collection('roles', (ref) => ref.orderBy('rol', 'asc')).snapshotChanges());
+
+    return this.firestore.collection('roles').snapshotChanges();
+  }
+
 
   deleteProducts(id: string): Promise<any> {
     return this.firestore.collection('products').doc(id).delete();

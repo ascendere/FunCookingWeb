@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-
 import { MsalService } from '@azure/msal-angular';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,6 +13,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  givenName: string | undefined;
   rutas = [
     {
       name: 'Mundo Salado',
@@ -67,6 +67,7 @@ export class HeaderComponent implements OnInit {
     },
   ];
 
+  isAdmin:boolean= false;
 
   constructor(
     private router: Router,
@@ -76,23 +77,44 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.auth.authState.subscribe((data)=>{
+      this.authService.getDataUser(data).subscribe((data2:any)=>{
+        this.isAdmin = data2.isAdmin
+      })
+    })
+    this.auth.currentUser.then(data=>{
+      console.log(data)
+    })
+  // return true;//
+    this.authService.getCurrentUser().then(data=>{
+      console.log(data)
 
+    })
   }
 
   redirectToURL(url: string) {
     this.router.navigate([url]);
   }
 
-  isLogged(): boolean {
-    return this.msalSevc.instance.getActiveAccount() != null;
+  redirectToLogin() {
+    this.router.navigate(['/login']);
   }
 
   isLoggedFirebase(): boolean {
     return this.auth.authState != null;
   }
 
-  isLoggedIn() {
-    return this.msalSevc.instance.getActiveAccount() != null;
+  isAdministrador(){
+  //console.log(this.auth.currentUser);
+  // return true;//
+    // return true;
+   /*  console.log(this.authService.encontrarRol(this.authService.getEmail()))
+    if (String(this.authService.encontrarRol(this.authService.getEmail())) === 'administrador'){
+      return false;
+    }
+    else{
+      return true;
+    } */
   }
 
   logout() {

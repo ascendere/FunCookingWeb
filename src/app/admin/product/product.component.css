@@ -3,6 +3,7 @@
   align-items: center;
 
 }
+
 .etiqueta {
   flex: 1;
   text-align: left;
@@ -76,4 +77,26 @@
   display: flex;
   gap: 10px;
   justify-content: center;
+}
+
+@media (max-width: 375px) and (max-height: 812px) {
+  .etiqueta {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  .campo {
+    font-size: 12px;
+  }
+
+  .custom-upload-button,
+  .custom-upload-button:hover,
+  .delete-button,
+  .agg-button,
+  .return-button,
+  .save-button {
+    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 5px;
+  }
 }

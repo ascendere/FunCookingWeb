@@ -1,3 +1,5 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <div class="encabezado">
   <div class="logo">
     <img
@@ -70,7 +72,7 @@
     <!--  -->
 
     <!--Aparece o no el botón de admin-->
-    <button mat-button [matMenuTriggerFor]="admin" *ngIf="!isLoggedIn()">
+    <button mat-button [matMenuTriggerFor]="admin" *ngIf="isAdmin">
       Administrador
     </button>
     <mat-menu #admin="matMenu">
@@ -91,21 +93,21 @@
 
     <!--  -->
 
-    <button
+    <!-- <button
       mat-button
-      *ngIf="!isLoggedIn()"
       (click)="redirectToURL('login')"
       routerLinkActive="active"
     >
       <a><mat-icon>account_circle</mat-icon></a>
-    </button>
+    </button> -->
 
-    <button mat-button [matMenuTriggerFor]="user" *ngIf="isLoggedIn()">
+    <button mat-button [matMenuTriggerFor]="user" >
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #user="matMenu">
       <!-- <button mat-menu-item>Item 1</button>
       <button mat-menu-item>Item 2</button> -->
+
       <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
     </mat-menu>
   </div>
