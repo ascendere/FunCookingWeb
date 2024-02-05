@@ -1,6 +1,7 @@
 # FunCooking
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6
+(Angular CLI version 15.2.9 is recommended to run the development server and for the funcionality of this project in general).
 
 ## Development server
 
