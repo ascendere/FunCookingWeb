@@ -20,9 +20,10 @@
       <div class="contenido">
         <h3>{{ data.title }}</h3>
         <p>{{ data.description }}</p>
-        <!--<div class="boton">
-          <button><a [routerLink]="data.url">Mostrar más</a></button>
-        </div>-->
+        <div class="boton">
+        <button *ngFor="let url of data.urls; let i = index"><a [href]="url" download="catalogo.pdf">catálogo
+          {{ i + 1 }}</a></button>
+        </div>
       </div>
     </div>
   </div>

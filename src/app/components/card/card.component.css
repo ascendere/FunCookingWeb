@@ -1,12 +1,13 @@
 .boton {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
 button {
   background-color: #000;
-  padding: 10px 25px;
+  padding: 5px;
+  margin: 5px;
   border-radius: 20px;
 }
 

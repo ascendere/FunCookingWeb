@@ -128,7 +128,24 @@ const MundosData: any[] = [
                 description:
                   'Su principal ingrediente es la harina de maíz, es un potaje espeso, esto se da por la harina combinada con agua condimentando con refrito y sal, se lo puede acompañar con huevo frito y chicharrón.',
                 img: './../../../assets/imgs-funCooking/SANGO-DE-MAIZ.png',
-                url: '',
+              },
+            ],
+          },
+          {
+            name: 'Productos ecuatorianos',
+            items: [
+              {
+                title: 'Papa',
+                description:
+                  'La papa es el segundo cultivo más importante en la Sierra ecuatoriana, después del maíz suave llamado choclo. La cadena productiva de la papa se ha extendido a tal punto que cerca de 80 mil agricultores se dedican a su cultivo y comercialización.',
+                img: './../../../assets/imgs-funCooking/PAPA.png',
+                urls: [
+                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 1.pdf',
+                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 2.pdf',
+                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 3.pdf',
+                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 4.pdf',
+                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 5.pdf'
+                ]
               },
             ],
           },
