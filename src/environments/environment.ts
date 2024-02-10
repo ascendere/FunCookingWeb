@@ -1,7 +1,5 @@
-import {
-  IPublicClientApplication,
-  PublicClientApplication,
-} from '@azure/msal-browser';
+import { IPublicClientApplication } from "@azure/msal-browser/dist/app/IPublicClientApplication";
+import { PublicClientApplication } from "@azure/msal-browser/dist/app/PublicClientApplication";
 
 export const environment = {
   firebase: {

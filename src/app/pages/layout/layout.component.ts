@@ -140,11 +140,11 @@ const MundosData: any[] = [
                   'La papa es el segundo cultivo más importante en la Sierra ecuatoriana, después del maíz suave llamado choclo. La cadena productiva de la papa se ha extendido a tal punto que cerca de 80 mil agricultores se dedican a su cultivo y comercialización.',
                 img: './../../../assets/imgs-funCooking/PAPA.png',
                 urls: [
-                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 1.pdf',
-                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 2.pdf',
-                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 3.pdf',
-                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 4.pdf',
-                  './../../../assets/Catalogos/Papa/Catálogo PAPALAB - GRUPO 5.pdf'
+                  'https://utpl-my.sharepoint.com/:b:/r/personal/jfjaramillo19_utpl_edu_ec/Documents/Attachments/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%201.pdf?csf=1&web=1&e=M4B6jj',
+                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%202.pdf?csf=1&web=1&e=T9UdZA',
+                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%203.pdf?csf=1&web=1&e=cbKZKR',
+                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%204.pdf?csf=1&web=1&e=lwhp96',
+                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%205.pdf?csf=1&web=1&e=VZ7dGy'
                 ]
               },
             ],

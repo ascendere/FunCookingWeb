@@ -1,3 +1,6 @@
+import { IPublicClientApplication } from "@azure/msal-browser/dist/app/IPublicClientApplication";
+import { PublicClientApplication } from "@azure/msal-browser/dist/app/PublicClientApplication";
+
 export const environment = {
   firebase: {
     apiKey: 'AIzaSyDg8TCiGMTINvfWsirIgm3A64vKQhBvV44',
@@ -9,3 +12,14 @@ export const environment = {
   },
   production: true,
 };
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: 'ebebb7cc-fee7-4d8e-a7f6-e5e2651abab0', // clave azure
+      redirectUri: 'http://localhost:4200/inicio', // a que pagina ir despues de login
+      postLogoutRedirectUri: 'http://localhost:4200/inicio', // a que pagina ir despues de login
+      // postLogoutRedirectUri: 'http://localhost:4200/contacto', // a que pagina ir despues de cerrar sesión
+    },
+  });
+}

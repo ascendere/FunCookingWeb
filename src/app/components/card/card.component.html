@@ -21,7 +21,7 @@
         <h3>{{ data.title }}</h3>
         <p>{{ data.description }}</p>
         <div class="boton">
-        <button *ngFor="let url of data.urls; let i = index"><a [href]="url" download="catalogo.pdf">catálogo
+        <button *ngFor="let url of data.urls; let i = index"><a [href]="url" download="catalogo.pdf" target="_blank">catálogo
           {{ i + 1 }}</a></button>
         </div>
       </div>
