@@ -140,11 +140,11 @@ const MundosData: any[] = [
                   'La papa es el segundo cultivo más importante en la Sierra ecuatoriana, después del maíz suave llamado choclo. La cadena productiva de la papa se ha extendido a tal punto que cerca de 80 mil agricultores se dedican a su cultivo y comercialización.',
                 img: './../../../assets/imgs-funCooking/PAPA.png',
                 urls: [
-                  'https://utpl-my.sharepoint.com/:b:/r/personal/jfjaramillo19_utpl_edu_ec/Documents/Attachments/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%201.pdf?csf=1&web=1&e=M4B6jj',
-                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%202.pdf?csf=1&web=1&e=T9UdZA',
-                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%203.pdf?csf=1&web=1&e=cbKZKR',
-                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%204.pdf?csf=1&web=1&e=lwhp96',
-                  'https://utpl-my.sharepoint.com/:b:/r/personal/sjjumbo3_utpl_edu_ec/Documents/Datos%20adjuntos/Cata%CC%81logo%20PAPALAB%20-%20GRUPO%205.pdf?csf=1&web=1&e=VZ7dGy'
+                  'https://firebasestorage.googleapis.com/v0/b/funcooking2-72cbd.appspot.com/o/Archive%2FCata%CC%81logo%20PAPALAB%20-%20GRUPO%201%20(1).pdf?alt=media&token=d93576ea-2035-44c8-bb51-d876d8274a4c',
+                  'https://firebasestorage.googleapis.com/v0/b/funcooking2-72cbd.appspot.com/o/Archive%2FCata%CC%81logo%20PAPALAB%20-%20GRUPO%202%20(1).pdf?alt=media&token=5fe5ad36-e2f2-4521-a477-070cc18692e4',
+                  'https://firebasestorage.googleapis.com/v0/b/funcooking2-72cbd.appspot.com/o/Archive%2FCata%CC%81logo%20PAPALAB%20-%20GRUPO%203%20(1).pdf?alt=media&token=58cd2b07-3c35-433f-aa00-d83f3406ed2f',
+                  'https://firebasestorage.googleapis.com/v0/b/funcooking2-72cbd.appspot.com/o/Archive%2FCata%CC%81logo%20PAPALAB%20-%20GRUPO%204%20(1).pdf?alt=media&token=66684b47-2e0c-4314-8667-0160ce5b4400',
+                  'https://firebasestorage.googleapis.com/v0/b/funcooking2-72cbd.appspot.com/o/Archive%2FCata%CC%81logo%20PAPALAB%20-%20GRUPO%205%20(1).pdf?alt=media&token=83b28b40-904a-4392-b2cf-b0e192035fe6'
                 ]
               },
             ],
