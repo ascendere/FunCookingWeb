@@ -77,9 +77,32 @@ export class LoginComponent implements OnDestroy {
                 error
               );
             });
-        }else{
+        } else {
           this.router.navigateByUrl('inicio');
         }
+      });
+    }
+  }
+  //para ingresar con google
+  login_google() {
+    if (this.isLoggedIn()) {
+      this.router.navigateByUrl('inicio');
+    } else {
+      this.authService.loginWithGoogle().then((data) => {
+        if (data?.additionalUserInfo?.isNewUser) {
+          this.authService.userFirebase(data)
+            .then(() => {
+              console.log('Datos guardados en Firebase');
+              this.router.navigateByUrl('inicio');
+            })
+            .catch((error) => {
+              console.error('Error al guardar datos:', error);
+            });
+        } else {
+          this.router.navigateByUrl('inicio');
+        }
+      }).catch(error => {
+        console.error('Error al iniciar sesión con Google:', error);
       });
     }
   }

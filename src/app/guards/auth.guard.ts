@@ -8,7 +8,8 @@ import { switchMap, take } from 'rxjs/operators';
 })
 export class AuthGuard implements CanActivate {
   constructor(private auth: AngularFireAuth, private router: Router) {}
-
+//bloqueo de acceso si no hay un usuario autenticado si no hay un usuario
+// autenticado, se redirige a la página de login y se limpian los datos de localStorage
   canActivate() {
     return this.auth.authState.pipe(
       take(1),

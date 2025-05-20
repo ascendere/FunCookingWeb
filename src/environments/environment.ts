@@ -1,6 +1,6 @@
 import { IPublicClientApplication } from "@azure/msal-browser/dist/app/IPublicClientApplication";
 import { PublicClientApplication } from "@azure/msal-browser/dist/app/PublicClientApplication";
-
+// Conectarse a firebase y azure
 export const environment = {
   firebase: {
     apiKey: 'AIzaSyDg8TCiGMTINvfWsirIgm3A64vKQhBvV44',

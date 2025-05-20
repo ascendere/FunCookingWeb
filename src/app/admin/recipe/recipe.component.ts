@@ -68,7 +68,8 @@ export class RecipeComponent implements OnInit {
     console.log(file);
 
     const imgRef = ref(this.storage, `imagesR/${file.name}`);
-
+    
+// Sincronizacion de las imagenes desde firebase
     uploadBytes(imgRef, file)
       .then((response) => {
         console.log(response);

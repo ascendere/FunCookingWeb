@@ -15,7 +15,7 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'inicio',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -34,10 +34,10 @@ const routes: Routes = [
     path: 'locales',
     component: SitesComponent,
   },
-  /* {
-    path: 'cocinas',
-    component: LayoutComponent,
-  }, */
+  {
+    path: 'formulario',
+    component: FormularioComponent,
+  },
   {
     path: 'cocina/:idCocina',
     component: LayoutComponent,

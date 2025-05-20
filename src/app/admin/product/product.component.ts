@@ -348,7 +348,7 @@ export class ProductComponent implements OnInit {
       this.editProduct(this.id);
     }
   }
-
+//añadir producto
   addProducts() {
     const combinationValues = this.combinationArray.controls.map(
       (control, i) => ({
@@ -382,7 +382,7 @@ export class ProductComponent implements OnInit {
       DateCreate: new Date(),
       DateUpdate: new Date(),
     };
-
+//se envia los datos validados al db
     this._productsService
       .agregarProduct(products)
       .then(() => {

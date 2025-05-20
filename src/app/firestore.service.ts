@@ -23,6 +23,9 @@ export class FirestoreService {
   /* agregarProducto(products: any): Promise<any> {
     return this.firestore.collection('products').add(products);
   } */
+ 
+ //sincronizan con firebase por la api
+
   getProducts = (): Observable<any[]> => {
     return collectionData(this.productsCollection);
   };

@@ -40,7 +40,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 import { ProductsListComponent } from './admin/products-list/products-list.component';
-
+//configura el autenticador de azure msal para cuentas de microsoft
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
