@@ -91,21 +91,8 @@ loginWithGoogle(): Promise<firebase.auth.UserCredential> {
     .finally(() => {
       this.isLoggingIn = false;
     });
-} /*
-  //Verificar si el token guardado es válido (no ha expirado)
-  isTokenValid(): boolean {
-    const token = localStorage.getItem('auth_token');
-    if (!token) return false;
+} 
 
-    try {
-      const decoded: any = jwtDecode(token);
-      const now = Math.floor(Date.now() / 1000);
-      return decoded.exp > now;
-    } catch {
-      return false;
-    } 
-  }
-*/
   async logout() {
     localStorage.clear();
     this.router.navigateByUrl('/login');

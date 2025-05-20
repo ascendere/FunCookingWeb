@@ -23,17 +23,7 @@ export class AppComponent implements OnInit {
         this.cdr.detectChanges(); // Dispara la detección de cambios
       // }
     });
-    /*
-    // Verificar expiración del token cada 5 segundos
-    setInterval(() => {
-      const token = localStorage.getItem('auth_token');
-      if (token && !this.authService.isTokenValid()) {
-        alert('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
-        this.authService.logout();
-      }
-    }, 5000); // cada 5 segundos
-    */
-    
+
   }
 }
 
