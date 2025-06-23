@@ -19,9 +19,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
    this.router.events.subscribe(event => {
-      // if (event instanceof NavigationEnd) {
+      if (event instanceof NavigationEnd) {
         this.cdr.detectChanges(); // Dispara la detección de cambios
-      // }
+      }
     });
 
   }

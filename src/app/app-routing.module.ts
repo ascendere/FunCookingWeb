@@ -21,30 +21,37 @@ const routes: Routes = [
   {
     path: 'inicio',
     component: HomeComponent,
+     canActivate: [AuthGuard],
   },
   {
     path: 'contacto',
     component: ContactComponent,
+     canActivate: [AuthGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
+    
   },
   {
     path: 'locales',
     component: SitesComponent,
+     canActivate: [AuthGuard],
   },
   {
     path: 'formulario',
     component: FormularioComponent,
+     canActivate: [AuthGuard],
   },
   {
     path: 'cocina/:idCocina',
     component: LayoutComponent,
+     canActivate: [AuthGuard],
   },
   {
     path: 'cocina/:idCocina/:id',
     component: LayoutComponent,
+     canActivate: [AuthGuard],
   },
   {
     path: 'products',

@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MSALInstanceFactory, environment } from '../environments/environment';
 import { InteractionType } from '@azure/msal-browser';
 
+import { AngularFireFunctionsModule, REGION } from '@angular/fire/compat/functions';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -34,8 +36,9 @@ import {
 } from '@azure/msal-angular';
 import { ProductComponent } from './admin/product/product.component';
 import { AngularFireModule } from '@angular/fire/compat';
+import {AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+// import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
@@ -78,10 +81,12 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     FormsModule,
     ReactiveFormsModule,
     CarouselModule,
+    AngularFireFunctionsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AngularFirestoreModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideStorage(() => getStorage()),
+    // provideFirebaseApp(() => initializeApp(environment.firebase)),
+    // provideStorage(() => getStorage()),
     MsalModule,
   ],
   providers: [
@@ -89,6 +94,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalService,
     MsalGuard,
     MsalBroadcastService,
+    { provide: REGION, useValue: 'us-central1' },
     {
       provide: CarouselConfig,
       useValue: {
@@ -98,6 +104,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       },
     },
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent],
+  bootstrap: [AppComponent/*, MsalRedirectComponent */],
 })
 export class AppModule {}

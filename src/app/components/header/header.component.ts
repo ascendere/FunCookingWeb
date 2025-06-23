@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit {
       })
     })
     this.auth.currentUser.then(data=>{
-      console.log(data)
+      //console.log(data)
     })
   // return true;//
     this.authService.getCurrentUser().then(data=>{

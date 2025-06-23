@@ -2,12 +2,13 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { User } from 'firebase/auth';
 import { ProductsService } from './products.service';
-import { map } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode';
+
+
 
 
 @Injectable({
@@ -19,9 +20,10 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     private router: Router,
+    private fns: AngularFireFunctions,
     private ProductsService: ProductsService
-    
-  ) {}
+
+  ) { }
 
   rol: string = '';
   email: string = '';
@@ -47,51 +49,83 @@ export class AuthService {
     microsoftAuthProvider.addScope('profile');
     return this.afAuth.signInWithPopup(microsoftAuthProvider);
   }
-//Manejo del logeo con Google y tambien la enviada de un token a la API externa
-
-loginWithGoogle(): Promise<firebase.auth.UserCredential> {
-  if (this.isLoggingIn) return Promise.reject('Login ya en proceso');
-  this.isLoggingIn = true;
-
-  return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    .then(async (credential) => {
-      const user = credential.user;
-      if (!user) throw new Error('Usuario no encontrado');
-
-      const idToken = await user.getIdToken(/* forceRefresh */ true);
-      //
-      const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/validateTokenNew', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ token: idToken })
-      });
-
-      if (!response.ok) throw new Error('Error al validar con la API local');
-      const result = await response.json();
-
-      if (result?.authorized && result?.token) {
-        //recibe el token temporal
-        const response2 = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyUniqueToken', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: result.token })
-        });
-
-        const finalResult = await response2.json();
-        if (finalResult.valid) {
-          localStorage.setItem('auth_token', result.token);
-          return credential;
-        } else {
-          throw new Error('Token temporal inválido o ya usado');
+  //Manejo del logeo con Google y tambien la enviada de un token a la API externa
+  /*
+      async loginWithGoogle(): Promise<'success' | 'error'> {
+        if (this.isLoggingIn) return 'error';
+        this.isLoggingIn = true;
+    
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          const credential = await this.afAuth.signInWithPopup(provider);
+          const idToken = await credential.user?.getIdToken();
+          console.log(idToken);
+    
+          const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
+            method: 'POST',
+            // implemantar el header aqui
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: idToken }),
+            
+          });
+    
+          this.isLoggingIn = false;
+          return response.ok ? 'success' : 'error';
+        } catch (error) {
+          this.isLoggingIn = false;
+          return 'error';
         }
-      } else {
-        throw new Error('Usuario no autorizado por el primer filtro');
       }
-    })
-    .finally(() => {
-      this.isLoggingIn = false;
+  */
+  //onCall
+  async loginWithGoogle(): Promise<'success' | 'error'> {
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    await this.afAuth.signInWithPopup(provider);
+
+    // Espera a que authState emita el usuario autenticado
+    const authUser = await new Promise<firebase.User | null>(resolve => {
+      const sub = this.afAuth.authState.subscribe(user => {
+        if (user) {
+          sub.unsubscribe();
+          resolve(user);
+        }
+      });
+      setTimeout(() => {
+        sub.unsubscribe();
+        resolve(null);
+      }, 3000);
     });
-} 
+
+    if (!authUser) {
+      console.log('No user in authState after signInWithPopup');
+      return 'error';
+    }
+    console.log('authState user:', authUser.email);
+
+    // NUEVO: Verifica el usuario actual en AngularFireAuth
+    const currentUser = await this.afAuth.currentUser;
+    console.log('currentUser:', currentUser);
+
+    // Ahora sí, llama a la función onCall
+    const callable = this.fns.httpsCallable('verifyFirebaseOnCall');
+    const functionResult = await callable({}).toPromise();
+
+    console.log('Resultado de la función:', functionResult);
+    return (functionResult as any)?.status === 'success' ? 'success' : 'error';
+
+  } catch (error) {
+    console.error('Error durante la autenticación o llamada a la función:', error);
+    if ((error as any).code) {
+      console.error('Firebase Error Code:', (error as any).code);
+    }
+    return 'error';
+  }
+}
+
+
+
 
   async logout() {
     localStorage.clear();
@@ -132,16 +166,22 @@ loginWithGoogle(): Promise<firebase.auth.UserCredential> {
 
   async getCurrentUser(): Promise<Partial<User> | null> {
     const user = await this.afAuth.currentUser;
-    if (user) {
-      const userInfo = await this.getDataUser(user.email).toPromise();
+    if (user && user.email) {
+      const userInfo = await this.getDataUser(user).toPromise();
       return userInfo as any;
     }
     return null;
   }
 
   getDataUser(user: any) {
+    if (!user || !user.email) {
+      // console.warn('getDataUser: usuario o email es null');
+      return new Observable(observer => observer.complete());
+    }
+
     return this.firestore.collection('users').doc(user.email).valueChanges();
   }
+
 
   async isAuthenticated(): Promise<boolean> {
     const user = await this.getCurrentUser();

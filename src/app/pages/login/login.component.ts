@@ -32,7 +32,7 @@ export class LoginComponent implements OnDestroy {
   ) {
     this.appComponent.isLogin = true;
     // console.log(this.msalSevc.instance.getActiveAccount())
-    console.log(
+    /* console.log(
       this.auth.authState
         .pipe(
           take(1),
@@ -47,7 +47,7 @@ export class LoginComponent implements OnDestroy {
           })
         )
         .subscribe()
-    );
+    ); */
   }
 
   /* Loging start */
@@ -83,29 +83,22 @@ export class LoginComponent implements OnDestroy {
       });
     }
   }
-  //para ingresar con google
-  login_google() {
-    if (this.isLoggedIn()) {
+ //para ingresar con google
+login_google() {
+  this.authService.loginWithGoogle()
+    .then((result) => {
       this.router.navigateByUrl('inicio');
-    } else {
-      this.authService.loginWithGoogle().then((data) => {
-        if (data?.additionalUserInfo?.isNewUser) {
-          this.authService.userFirebase(data)
-            .then(() => {
-              console.log('Datos guardados en Firebase');
-              this.router.navigateByUrl('inicio');
-            })
-            .catch((error) => {
-              console.error('Error al guardar datos:', error);
-            });
-        } else {
-          this.router.navigateByUrl('inicio');
-        }
-      }).catch(error => {
-        console.error('Error al iniciar sesión con Google:', error);
+    })
+    .catch((error) => {
+      console.error('Error al iniciar sesión con Google:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Error al iniciar sesión con Google',
       });
-    }
-  }
+    });
+}
+
 
   logout() {
     this.msalSevc.loginRedirect();
