@@ -11,6 +11,7 @@ import {
   uploadBytes,
 } from '@angular/fire/storage';
 import { RecipesService } from 'src/app/services/recipes.service';
+import { LogsService } from 'src/app/services/logs.service';
 
 @Component({
   selector: 'app-recipe',
@@ -40,7 +41,8 @@ export class RecipeComponent implements OnInit {
     private _recipesService: RecipesService,
     private storage: Storage,
     private router: Router,
-    private aRoute: ActivatedRoute
+    private aRoute: ActivatedRoute,
+    private logsService: LogsService
   ) {
     this.createRecipes = this.fb.group({
       name: ['', Validators.required],
@@ -216,10 +218,12 @@ export class RecipeComponent implements OnInit {
     this._recipesService
       .agregarRecipes(recipes)
       .then(() => {
+        //this.logsService.logCreateRecipe(recipes.name);
         console.log('receta registrada con exito!');
         this.router.navigate(['/list-recipes']);
       })
       .catch((error: any) => {
+        //this.logsService.logErrorCreateRecipe(recipes.name, error);
         console.log(error);
       });
   }
@@ -247,7 +251,10 @@ export class RecipeComponent implements OnInit {
     };
 
     this._recipesService.updateRecipes(id, recipes).then(() => {
+      //this.logsService.logEditRecipe(id);
       this.router.navigate(['/list-recipes']);
+    }).catch((error) => {
+      //this.logsService.logErrorEditRecipe(id, error);
     });
   }
 
@@ -280,6 +287,7 @@ export class RecipeComponent implements OnInit {
     this.setArrayValues(this.extraDataArray, data.extraDataArray);
     this.setIngredientsArrayValues(data.ingredientsArray);
   }
+
   setArrayValues(array: FormArray, values: any[]) {
     array.clear();
     values.forEach((value) => {
@@ -299,3 +307,4 @@ export class RecipeComponent implements OnInit {
     });
   }
 }
+

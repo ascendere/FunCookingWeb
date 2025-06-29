@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { switchMap, take } from 'rxjs/operators';
 import { ProductsService } from 'src/app/services/products.service';
+import { LogsService } from 'src/app/services/logs.service';
 
 import Swal from 'sweetalert2';
 
@@ -28,7 +29,8 @@ export class LoginComponent implements OnDestroy {
     private router: Router,
     private authService: AuthService,
     private auth: AngularFireAuth,
-    private ProductsService: ProductsService
+    private ProductsService: ProductsService,
+    private logsService: LogsService
   ) {
     this.appComponent.isLogin = true;
     // console.log(this.msalSevc.instance.getActiveAccount())
@@ -83,21 +85,34 @@ export class LoginComponent implements OnDestroy {
       });
     }
   }
- //para ingresar con google
-login_google() {
-  this.authService.loginWithGoogle()
-    .then((result) => {
-      this.router.navigateByUrl('inicio');
-    })
-    .catch((error) => {
-      console.error('Error al iniciar sesión con Google:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Error al iniciar sesión con Google',
+  //para ingresar con google
+  login_google() {
+    this.authService.loginWithGoogle()
+      .then((result) => {
+        if (result === 'success') {
+          this.logsService.logLoginExitoso("Inicio de sesión con Google exitoso");
+          this.router.navigateByUrl('inicio');
+        } else {
+          this.logsService.logLoginFallido("Error al iniciar sesión con Google");
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error al iniciar sesión con Google',
+          });
+        }
+      })
+      .catch((error) => {
+        this.logsService.logLoginFallido("Error inesperado al iniciar sesión con Google");
+        console.error('Error inesperado al iniciar sesión con Google:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error inesperado al iniciar sesión con Google',
+        });
       });
-    });
-}
+  }
+
+
 
 
   logout() {
@@ -114,15 +129,18 @@ login_google() {
         text: 'Debe ingresar un correo y contraseña',
         icon: 'error',
       });
+      this.logsService.logLoginFallido("Campos vacíos en login");
       return;
     }
 
     this.authService
       .loginEmailPassword(this.email, this.password)
       .then((res) => {
+        this.logsService.logLoginExitoso();
         this.router.navigateByUrl('/products');
       })
       .catch((error) => {
+        this.logsService.logLoginFallido("Credenciales incorrectas");
         Swal.fire({
           icon: 'error',
           title: 'Oops...',

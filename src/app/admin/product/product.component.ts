@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products.service';
 import { Component, OnInit } from '@angular/core';
 import { Storage, deleteObject, getDownloadURL, getMetadata, listAll, ref, uploadBytes } from '@angular/fire/storage'
+import { LogsService } from 'src/app/services/logs.service';
 
 @Component({
   selector: 'app-product',
@@ -37,7 +38,8 @@ export class ProductComponent implements OnInit {
     private storage: Storage,
     private _productsService: ProductsService,
     private router: Router,
-    private aRoute: ActivatedRoute
+    private aRoute: ActivatedRoute,
+    private logsService: LogsService // <--- Agrega esto
   ) {
     this.createProducts = this.fb.group({
       name: ['', [Validators.required]],
@@ -386,10 +388,12 @@ export class ProductComponent implements OnInit {
     this._productsService
       .agregarProduct(products)
       .then(() => {
+        //this.logsService.logCreateProduct(products.name);
         console.log('producto registrado con éxito!');
         this.router.navigate(['/list-products']);
       })
       .catch((error: any) => {
+        //this.logsService.logErrorCreateProduct(products.name, error);
         console.log(error);
       });
   }
@@ -430,7 +434,10 @@ export class ProductComponent implements OnInit {
     };
 
     this._productsService.updateProduct(id, products).then(() => {
+      //his.logsService.logEditProduct(id);
       this.router.navigate(['/list-products']);
+    }).catch((error) => {
+      //this.logsService.logErrorEditProduct(id, error);
     });
   }
 

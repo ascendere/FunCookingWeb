@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage, deleteObject, ref } from '@angular/fire/storage';
 import { RecipesService } from 'src/app/services/recipes.service';
+import { LogsService } from 'src/app/services/logs.service';
 
 @Component({
   selector: 'app-recipes-list',
@@ -14,7 +15,8 @@ export class RecipesListComponent implements OnInit {
   constructor(
     private _recipesService: RecipesService,
     private storage: Storage,
-    private router: Router
+    private router: Router,
+    private logsService: LogsService // <--- Agrega esto
   ) {}
 
   ngOnInit(): void {
@@ -52,9 +54,11 @@ export class RecipesListComponent implements OnInit {
     this._recipesService
       .deleteRecipes(id)
       .then(() => {
+        this.logsService.logDeleteRecipe(id);
         console.log('receta eliminado con exito');
       })
       .catch((error) => {
+        this.logsService.logErrorDeleteRecipe(id, error);
         console.log(error);
       });
   }

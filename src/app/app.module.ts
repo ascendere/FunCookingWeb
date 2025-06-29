@@ -4,8 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MSALInstanceFactory, environment } from '../environments/environment';
 import { InteractionType } from '@azure/msal-browser';
 
-import { AngularFireFunctionsModule, REGION } from '@angular/fire/compat/functions';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -36,14 +34,29 @@ import {
 } from '@azure/msal-angular';
 import { ProductComponent } from './admin/product/product.component';
 import { AngularFireModule } from '@angular/fire/compat';
-import {AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-// import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getStorage, provideStorage } from '@angular/fire/storage';
+import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 import { ProductsListComponent } from './admin/products-list/products-list.component';
-//configura el autenticador de azure msal para cuentas de microsoft
+
+// Inicializar Firebase SDK nativo
+import { initializeApp } from 'firebase/app';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
+
+// Inicializar Firebase
+const firebaseApp = initializeApp(environment.firebase);
+const auth = getAuth(firebaseApp);
+const functions = getFunctions(firebaseApp);
+
+// Solo conectar emuladores en desarrollo si es necesario
+// if (!environment.production) {
+//   connectAuthEmulator(auth, 'http://localhost:9099');
+//   connectFunctionsEmulator(functions, 'localhost', 5001);
+// }
+
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
@@ -81,12 +94,10 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     FormsModule,
     ReactiveFormsModule,
     CarouselModule,
-    AngularFireFunctionsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
     AngularFirestoreModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideStorage(() => getStorage()),
+    AngularFireFunctionsModule,
+    AngularFireAuthModule,
     MsalModule,
   ],
   providers: [
@@ -94,7 +105,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalService,
     MsalGuard,
     MsalBroadcastService,
-    { provide: REGION, useValue: 'us-central1' },
     {
       provide: CarouselConfig,
       useValue: {
@@ -104,6 +114,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       },
     },
   ],
-  bootstrap: [AppComponent/*, MsalRedirectComponent */],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

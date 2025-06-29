@@ -23,9 +23,7 @@ export class ProductsService {
   }
 
   getRoles(){
-
     // console.log(this.firestore.collection('roles', (ref) => ref.orderBy('rol', 'asc')).snapshotChanges());
-
     return this.firestore.collection('roles').snapshotChanges();
   }
 

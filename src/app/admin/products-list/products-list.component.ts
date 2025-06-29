@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products.service';
 import { Storage, deleteObject, ref } from '@angular/fire/storage';
+import { LogsService } from 'src/app/services/logs.service';
 
 @Component({
   selector: 'app-products-list',
@@ -14,7 +15,8 @@ export class ProductsListComponent implements OnInit {
   constructor(
     private _productsService: ProductsService,
     private storage: Storage,
-    private router: Router
+    private router: Router,
+    private logsService: LogsService // <--- Agrega esto
   ) {}
 
   ngOnInit(): void {
@@ -53,9 +55,11 @@ export class ProductsListComponent implements OnInit {
     this._productsService
       .deleteProducts(id)
       .then(() => {
+        this.logsService.logDeleteProduct(id);
         console.log('Product deleted successfully');
       })
       .catch((error) => {
+        this.logsService.logErrorDeleteProduct(id, error);
         console.log('Error deleting product:', error);
       });
   }

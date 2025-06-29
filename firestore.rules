@@ -2,14 +2,37 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{document=**} {
-      allow read, write;
+
+    // Solo el usuario autenticado puede leer/escribir su propio documento
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.token.email == userId;
     }
-     match /recipes/{document=**} {
-      allow read, write;
+
+    // Productos: lectura para autenticados, escritura solo admin
+    match /products/{document=**} {
+      allow read: if request.auth != null;  // Permite la lectura solo a usuarios autenticados
+      allow create, update, delete: if request.auth != null && request.auth.token.admin == true;  // Permite escritura solo a admin
     }
-     match /products/{document=**} {
-      allow read, write;
+
+    // Recetas: lectura para autenticados, escritura solo admin
+    match /recipes/{document=**} {
+      allow read: if request.auth != null;  // Permite la lectura solo a usuarios autenticados
+      allow create, update, delete: if request.auth != null && request.auth.token.admin == true;  // Permite escritura solo a admin
+    }
+
+    // Logs: solo admin puede leer, cualquiera autenticado puede crear, nadie puede modificar/borrar
+    match /logs/{document=**} {
+      allow create: if request.auth != null;  // Permite la creación solo a usuarios autenticados
+      allow read: if request.auth != null && request.auth.token.admin == true;  // Permite lectura solo a administradores
+      allow update, delete: if false;  // Nadie puede actualizar o borrar
+    }
+
+    // Reglas adicionales de seguridad
+    // Esta sección es opcional, pero es importante para asegurar otros datos sensibles.
+    // Ejemplo de que los usuarios solo puedan escribir en colecciones relacionadas con su cuenta (por ejemplo, favoritos):
+    match /favorites/{favoriteId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.token.email == resource.data.userEmail;  // Solo el usuario dueño de la colección puede modificarla
     }
   }
 }
