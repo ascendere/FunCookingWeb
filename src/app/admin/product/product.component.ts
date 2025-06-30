@@ -388,12 +388,12 @@ export class ProductComponent implements OnInit {
     this._productsService
       .agregarProduct(products)
       .then(() => {
-        //this.logsService.logCreateProduct(products.name);
+        this.logsService.logCreateProduct(products.name);
         console.log('producto registrado con éxito!');
-        this.router.navigate(['/list-products']);
+        this.router.navigate(['/products']);
       })
       .catch((error: any) => {
-        //this.logsService.logErrorCreateProduct(products.name, error);
+        this.logsService.logErrorCreateProduct(products.name, error);
         console.log(error);
       });
   }
@@ -434,10 +434,10 @@ export class ProductComponent implements OnInit {
     };
 
     this._productsService.updateProduct(id, products).then(() => {
-      //his.logsService.logEditProduct(id);
-      this.router.navigate(['/list-products']);
+      this.logsService.logEditProduct(id);
+      this.router.navigate(['/products']);
     }).catch((error) => {
-      //this.logsService.logErrorEditProduct(id, error);
+      this.logsService.logErrorEditProduct(id, error);
     });
   }
 

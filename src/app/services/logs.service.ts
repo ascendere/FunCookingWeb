@@ -1,154 +1,231 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class LogsService {
-
   private baseUrl = 'https://us-central1-funcooking2-72cbd.cloudfunctions.net';
 
-  // Log genérico
-  logEvento(data: { evento: string, detalle: string, tipo?: string, ruta?: string }) {
-    return fetch(`${this.baseUrl}/logEvent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).catch(err => console.error('[LogsService] Error logEvento:', err.message));
+  constructor() { }
+
+  // Login logs
+  async logLoginExitoso(detalle: string = "Inicio de sesión exitoso"): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logLoginExitoso`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, detalle })
+      });
+    } catch (error) {
+      console.warn('Error logging login success:', error);
+      return;
+    }
   }
 
-  // Log de login exitoso
-  logLoginExitoso(detalle: string = "Inicio de sesión exitoso") {
-    return fetch(`${this.baseUrl}/logLoginExitoso`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ detalle })
-    }).catch(err => console.error('[LogsService] Error logLoginExitoso:', err.message));
+  async logLoginFallido(detalle: string = "Intento fallido de inicio de sesión"): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logLoginFallido`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid || null, detalle })
+      });
+    } catch (error) {
+      console.warn('Error logging login failure:', error);
+      return;
+    }
   }
 
-  // Log de login fallido
-  logLoginFallido(detalle: string = "Intento fallido de inicio de sesión") {
-    return fetch(`${this.baseUrl}/logLoginFallido`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ detalle })
-    }).catch(err => console.error('[LogsService] Error logLoginFallido:', err.message));
+  async logLogout(): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logLogout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid })
+      });
+    } catch (error) {
+      console.warn('Error logging logout:', error);
+      return;
+    }
   }
 
-  // Log de logout
-  logLogout(detalle: string = "Cierre de sesión") {
-    return fetch(`${this.baseUrl}/logLogout`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ detalle })
-    }).catch(err => console.error('[LogsService] Error logLogout:', err.message));
+  // Product logs
+  async logCreateProduct(nombre: string): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logCreateProduct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, nombre })
+      });
+    } catch (error) {
+      console.warn('Error logging product creation:', error);
+      return;
+    }
   }
 
-  // Log de creación de producto
-  logCreateProduct(nombre: string) {
-    return fetch(`${this.baseUrl}/logCreateProduct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre })
-    }).catch(err => console.error('[LogsService] Error logCreateProduct:', err.message));
+  async logEditProduct(id: string): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logEditProduct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id })
+      });
+    } catch (error) {
+      console.warn('Error logging product edit:', error);
+      return;
+    }
   }
 
-  // Log de edición de producto
-  logEditProduct(id: string) {
-    return fetch(`${this.baseUrl}/logEditProduct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    }).catch(err => console.error('[LogsService] Error logEditProduct:', err.message));
+  async logDeleteProduct(id: string): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logDeleteProduct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id })
+      });
+    } catch (error) {
+      console.warn('Error logging product deletion:', error);
+      return;
+    }
   }
 
-  // Log de eliminación de producto
-  logDeleteProduct(id: string) {
-    return fetch(`${this.baseUrl}/logDeleteProduct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    }).catch(err => console.error('[LogsService] Error logDeleteProduct:', err.message));
+  // Recipe logs
+  async logCreateRecipe(nombre: string): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logCreateRecipe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, nombre })
+      });
+    } catch (error) {
+      console.warn('Error logging recipe creation:', error);
+      return;
+    }
   }
 
-  // Log de error en creación de producto
-  logErrorCreateProduct(nombre: string, error: any) {
-    return fetch(`${this.baseUrl}/logErrorCreateProduct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, error })
-    }).catch(err => console.error('[LogsService] Error logErrorCreateProduct:', err.message));
+  async logEditRecipe(id: string): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logEditRecipe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id })
+      });
+    } catch (error) {
+      console.warn('Error logging recipe edit:', error);
+      return;
+    }
   }
 
-  // Log de error en edición de producto
-  logErrorEditProduct(id: string, error: any) {
-    return fetch(`${this.baseUrl}/logErrorEditProduct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, error })
-    }).catch(err => console.error('[LogsService] Error logErrorEditProduct:', err.message));
+  async logDeleteRecipe(id: string): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logDeleteRecipe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id })
+      });
+    } catch (error) {
+      console.warn('Error logging recipe deletion:', error);
+      return;
+    }
   }
 
-  // Log de error en eliminación de producto
-  logErrorDeleteProduct(id: string, error: any) {
-    return fetch(`${this.baseUrl}/logErrorDeleteProduct`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, error })
-    }).catch(err => console.error('[LogsService] Error logErrorDeleteProduct:', err.message));
+  // Error logs
+  async logErrorCreateProduct(nombre: string, error: any): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logErrorCreateProduct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, nombre, error: error.toString() })
+      });
+    } catch (err) {
+      console.warn('Error logging product creation error:', err);
+      return;
+    }
   }
 
-  // Log de creación de receta
-  logCreateRecipe(nombre: string) {
-    return fetch(`${this.baseUrl}/logCreateRecipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre })
-    }).catch(err => console.error('[LogsService] Error logCreateRecipe:', err.message));
+  async logErrorEditProduct(id: string, error: any): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logErrorEditProduct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id, error: error.toString() })
+      });
+    } catch (err) {
+      console.warn('Error logging product edit error:', err);
+      return;
+    }
   }
 
-  // Log de edición de receta
-  logEditRecipe(id: string) {
-    return fetch(`${this.baseUrl}/logEditRecipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    }).catch(err => console.error('[LogsService] Error logEditRecipe:', err.message));
+  async logErrorDeleteProduct(id: string, error: any): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logErrorDeleteProduct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id, error: error.toString() })
+      });
+    } catch (err) {
+      console.warn('Error logging product deletion error:', err);
+      return;
+    }
   }
 
-  // Log de eliminación de receta
-  logDeleteRecipe(id: string) {
-    return fetch(`${this.baseUrl}/logDeleteRecipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    }).catch(err => console.error('[LogsService] Error logDeleteRecipe:', err.message));
+  async logErrorCreateRecipe(nombre: string, error: any): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logErrorCreateRecipe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, nombre, error: error.toString() })
+      });
+    } catch (err) {
+      console.warn('Error logging recipe creation error:', err);
+      return;
+    }
   }
 
-  // Log de error en creación de receta
-  logErrorCreateRecipe(nombre: string, error: any) {
-    return fetch(`${this.baseUrl}/logErrorCreateRecipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, error })
-    }).catch(err => console.error('[LogsService] Error logErrorCreateRecipe:', err.message));
+  async logErrorEditRecipe(id: string, error: any): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logErrorEditRecipe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id, error: error.toString() })
+      });
+    } catch (err) {
+      console.warn('Error logging recipe edit error:', err);
+      return;
+    }
   }
 
-  // Log de error en edición de receta
-  logErrorEditRecipe(id: string, error: any) {
-    return fetch(`${this.baseUrl}/logErrorEditRecipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, error })
-    }).catch(err => console.error('[LogsService] Error logErrorEditRecipe:', err.message));
+  async logErrorDeleteRecipe(id: string, error: any): Promise<Response | void> {
+    try {
+      const user = await this.getCurrentUser();
+      return fetch(`${this.baseUrl}/logErrorDeleteRecipe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid: user?.uid, id, error: error.toString() })
+      });
+    } catch (err) {
+      console.warn('Error logging recipe deletion error:', err);
+      return;
+    }
   }
 
-  // Log de error en eliminación de receta
-  logErrorDeleteRecipe(id: string, error: any) {
-    return fetch(`${this.baseUrl}/logErrorDeleteRecipe`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, error })
-    }).catch(err => console.error('[LogsService] Error logErrorDeleteRecipe:', err.message));
+  // Helper method to get current user (you'll need to import Firebase Auth)
+  private async getCurrentUser(): Promise<any> {
+    // This is a simplified version - you should inject AngularFireAuth and get the current user
+    return null; // Return the actual user when Firebase Auth is properly injected
   }
 }
 

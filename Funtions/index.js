@@ -6,72 +6,14 @@ admin.initializeApp({
   credential: admin.credential.cert(require('./firebase-key.json'))
 });
 
-// HTTP tradicional
-exports.verifyFirebaseAuth = functions.https.onRequest((req, res) => {
-  cors(req, res, async () => {
-    // Headers de seguridad recomendados
-    res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-    res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade');
-    res.setHeader('Permissions-Policy', 'geolocation=(), microphone=()');
-    res.setHeader('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none';");
-
-    if (req.method !== 'POST') return res.status(405).send(); // Método no permitido
-    const { token, email } = req.body;
-    if (!token || !email) return res.status(400).send('Petición incorrecta'); // Petición incorrecta
-    
-    try {
-      const decodedToken = await admin.auth().verifyIdToken(token);
-
-      // Verifica si el correo del token coincide con el correo enviado
-      if (decodedToken.email !== email) {
-        return res.status(403).send('Acceso denegado: el correo no coincide');
-      }
-
-      return res.status(200).send(); // Solicitud válida
-    } catch {
-      return res.status(401).send(); // No autorizado
-    }
-  });
-});
-
-
-
 // Función onCall que usa la autenticación automática de Firebase
 exports.verifyFirebaseOnCall = functions.https.onCall((data, context) => {
   console.log('=== Iniciando verificación de autenticación ===');
   
-  // Registrar solo datos básicos para evitar estructuras circulares
-  console.log('Tipo de data:', typeof data);
-  console.log('Data keys:', data ? Object.keys(data) : 'no data');
-  if (data && data.message) {
-    console.log('Mensaje recibido:', data.message);
-  }
-  
-  // Registrar solo las partes relevantes del contexto (evitar referencias circulares)
-  const contextInfo = {
-    auth: context.auth ? {
-      uid: context.auth.uid,
-      email: context.auth.token?.email,
-      name: context.auth.token?.name,
-      firebase: context.auth.token?.firebase
-    } : null,
-    instanceIdToken: context.instanceIdToken,
-    rawRequest: {
-      ip: context.rawRequest?.ip,
-      userAgent: context.rawRequest?.headers?.['user-agent'],
-      hasAuthHeader: !!context.rawRequest?.headers?.authorization
-    }
-  };
-  console.log('Información del contexto:', JSON.stringify(contextInfo, null, 2));
-  
   // Verificar si el usuario está autenticado usando el contexto
   if (!context.auth) {
     console.error('❌ Usuario no autenticado - context.auth es null');
-    console.error('Headers de autenticación disponibles:', !!context.rawRequest?.headers?.authorization);
-    throw new functions.https.HttpsError('unauthenticated', 'Usuario no autenticado - No se encontró contexto de autenticación');
+    throw new functions.https.HttpsError('unauthenticated', 'Usuario no autenticado');
   }
 
   // El usuario está autenticado, obtener información del contexto
@@ -81,7 +23,6 @@ exports.verifyFirebaseOnCall = functions.https.onCall((data, context) => {
   console.log('✅ Usuario autenticado exitosamente:');
   console.log('- UID:', uid);
   console.log('- Email:', email);
-  console.log('- Token completo:', JSON.stringify(context.auth.token, null, 2));
 
   // Retornar información del usuario autenticado
   return {
@@ -99,14 +40,10 @@ const {
   logLoginExitoso,
   logLoginFallido,
   logLogout,
-  logCreateProduct,
-  logEditProduct,
   logDeleteProduct,
   logErrorCreateProduct,
   logErrorEditProduct,
   logErrorDeleteProduct,
-  logCreateRecipe,
-  logEditRecipe,
   logDeleteRecipe,
   logErrorCreateRecipe,
   logErrorEditRecipe,
@@ -285,95 +222,64 @@ exports.logErrorDeleteRecipe = functions.https.onRequest((req, res) => {
   });
 });
 
-// Función híbrida que maneja tanto onCall como HTTP POST
-exports.verifyFirebaseHybrid = functions.https.onRequest((req, res) => {
+// Endpoints para recetas
+exports.logCreateRecipe = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
-    console.log('=== Iniciando verificación híbrida ===');
-    console.log('Método HTTP:', req.method);
-    console.log('Content-Type:', req.headers['content-type']);
-    
-    // Headers de seguridad
-    res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-    res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade');
-    res.setHeader('Permissions-Policy', 'geolocation=(), microphone=()');
-    res.setHeader('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none';");
-
-    if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Método no permitido' });
-    }
-
     try {
-      let token = null;
-      let email = null;
-      
-      // Detectar si es una llamada callable o HTTP POST manual
-      const authHeader = req.headers.authorization;
-      const hasCallableData = req.body && req.body.data;
-      
-      if (authHeader && authHeader.startsWith('Bearer ')) {
-        // Es una llamada HTTP POST manual con token en Authorization header
-        console.log('📡 Detectada llamada HTTP POST con Authorization header');
-        token = authHeader.substring(7); // Remover "Bearer "
-        
-        // En este caso, necesitamos el email del token decodificado
-        const decodedToken = await admin.auth().verifyIdToken(token);
-        email = decodedToken.email;
-        
-      } else if (hasCallableData) {
-        // Es una llamada callable estándar o HTTP POST con data
-        console.log('📡 Detectada llamada callable o HTTP POST con data');
-        
-        if (req.body.token && req.body.email) {
-          // HTTP POST con token y email en el body
-          token = req.body.token;
-          email = req.body.email;
-        } else {
-          // Callable - extraer token del contexto de Firebase
-          // En este caso, Firebase ya maneja la autenticación
-          return res.status(200).json({
-            result: {
-              message: 'Autenticación exitosa',
-              method: 'callable'
-            }
-          });
-        }
-      } else {
-        return res.status(400).json({ error: 'Formato de petición no válido' });
-      }
-
-      if (!token || !email) {
-        return res.status(400).json({ error: 'Token o email faltante' });
-      }
-
-      // Verificar el token
-      console.log('🔍 Verificando token para:', email);
-      const decodedToken = await admin.auth().verifyIdToken(token);
-
-      // Verificar que el email coincida
-      if (decodedToken.email !== email) {
-        console.error('❌ El email del token no coincide:', decodedToken.email, 'vs', email);
-        return res.status(403).json({ error: 'Email no coincide' });
-      }
-
-      console.log('✅ Autenticación verificada exitosamente para:', email);
-      
-      return res.status(200).json({
-        result: {
-          message: 'Autenticación exitosa',
-          method: 'http-post',
-          user: {
-            uid: decodedToken.uid,
-            email: decodedToken.email
-          }
-        }
-      });
-
+      await logCreateRecipe(req.body);
+      res.status(200).json({ ok: true });
     } catch (error) {
-      console.error('❌ Error en verificación:', error);
-      return res.status(401).json({ error: 'Token inválido' });
+      res.status(500).json({ error: error.message });
+    }
+  });
+});
+exports.logEditRecipe = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      await logEditRecipe(req.body);
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+});
+exports.logDeleteRecipe = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      await logDeleteRecipe(req.body);
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+});
+exports.logErrorCreateRecipe = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      await logErrorCreateRecipe(req.body);
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+});
+exports.logErrorEditRecipe = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      await logErrorEditRecipe(req.body);
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+});
+exports.logErrorDeleteRecipe = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      await logErrorDeleteRecipe(req.body);
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   });
 });

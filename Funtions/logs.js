@@ -21,12 +21,12 @@ async function logLogout({ uid, detalle = "Cierre de sesión", ruta = "/logout" 
 }
 
 // Productos
-// async function logCreateProduct({ uid, nombre, ruta = "/create-producto" }) {
-//   await logEvento({ uid, evento: "CREATE_PRODUCT", detalle: `Producto creado: ${nombre}` , tipo: "INFO", ruta });
-// }
-// async function logEditProduct({ uid, id, ruta = "/update-producto" }) {
-//   await logEvento({ uid, evento: "EDIT_PRODUCT", detalle: `Producto editado: ${id}` , tipo: "INFO", ruta });
-// }
+async function logCreateProduct({ uid, nombre, ruta = "/create-producto" }) {
+  await logEvento({ uid, evento: "CREATE_PRODUCT", detalle: `Producto creado: ${nombre}` , tipo: "INFO", ruta });
+}
+async function logEditProduct({ uid, id, ruta = "/update-producto" }) {
+  await logEvento({ uid, evento: "EDIT_PRODUCT", detalle: `Producto editado: ${id}` , tipo: "INFO", ruta });
+}
 async function logDeleteProduct({ uid, id, ruta = "/products" }) {
   await logEvento({ uid, evento: "DELETE_PRODUCT", detalle: `Producto eliminado: ${id}` , tipo: "INFO", ruta });
 }
@@ -41,12 +41,12 @@ async function logErrorDeleteProduct({ uid, id, error, ruta = "/products" }) {
 }
 
 // Recetas
-// async function logCreateRecipe({ uid, nombre, ruta = "/create-recipe" }) {
-//   await logEvento({ uid, evento: "CREATE_RECIPE", detalle: `Receta creada: ${nombre}` , tipo: "INFO", ruta });
-// }
-// async function logEditRecipe({ uid, id, ruta = "/update-recipe" }) {
-//   await logEvento({ uid, evento: "EDIT_RECIPE", detalle: `Receta editada: ${id}` , tipo: "INFO", ruta });
-// }
+async function logCreateRecipe({ uid, nombre, ruta = "/create-recipe" }) {
+  await logEvento({ uid, evento: "CREATE_RECIPE", detalle: `Receta creada: ${nombre}` , tipo: "INFO", ruta });
+}
+async function logEditRecipe({ uid, id, ruta = "/update-recipe" }) {
+  await logEvento({ uid, evento: "EDIT_RECIPE", detalle: `Receta editada: ${id}` , tipo: "INFO", ruta });
+}
 async function logDeleteRecipe({ uid, id, ruta = "/recipes" }) {
   await logEvento({ uid, evento: "DELETE_RECIPE", detalle: `Receta eliminada: ${id}` , tipo: "INFO", ruta });
 }
@@ -65,14 +65,14 @@ module.exports = {
   logLoginExitoso,
   logLoginFallido,
   logLogout,
-  // logCreateProduct,
-  // logEditProduct,
+  logCreateProduct,
+  logEditProduct,
   logDeleteProduct,
   logErrorCreateProduct,
   logErrorEditProduct,
   logErrorDeleteProduct,
-  // logCreateRecipe,
-  // logEditRecipe,
+  logCreateRecipe,
+  logEditRecipe,
   logDeleteRecipe,
   logErrorCreateRecipe,
   logErrorEditRecipe,

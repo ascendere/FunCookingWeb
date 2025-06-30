@@ -51,128 +51,124 @@ export class AuthService {
   }
   //Manejo del logeo con Google y tambien la enviada de un token a la API externa
   // end point
-// async loginWithGoogle(): Promise<'success' | 'error'> {
-//   if (this.isLoggingIn) return 'error';
-//   this.isLoggingIn = true;
+async loginWithGoogle(): Promise<'success' | 'error'> {
+  if (this.isLoggingIn) return 'error';
+  this.isLoggingIn = true;
 
-//   try {
-//     const provider = new firebase.auth.GoogleAuthProvider();
-//     const credential = await this.afAuth.signInWithPopup(provider);
-//     const idToken = await credential.user?.getIdToken();
-//     const email = credential.user?.email;  // Obtener el correo del usuario
-//     console.log(idToken);
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    const idToken = await credential.user?.getIdToken();
+    const email = credential.user?.email;  // Obtener el correo del usuario
+    console.log(idToken);
 
-//     if (!email || !idToken) {
-//       throw new Error('No se pudo obtener el token o el correo');
-//     }
-
-//     const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ token: idToken, email: email }),  // Enviar el email junto con el token
-//     });
-
-//     // Guardar datos del usuario en la colección users si el login fue exitoso
-//     if (response.ok) {
-//       await this.userFirebase(credential);
-//     }
-
-//     this.isLoggingIn = false;
-//     return response.ok ? 'success' : 'error';
-//   } catch (error) {
-//     console.error(error);
-//     this.isLoggingIn = false;
-//     return 'error';
-//   }
-// }
-
-
-  // oncall con autenticación automática de Firebase
-  async loginWithGoogle(): Promise<'success' | 'error'> {
-    if (this.isLoggingIn) {
-      console.log('Login en progreso...');
-      return 'error';
+    if (!email || !idToken) {
+      throw new Error('No se pudo obtener el token o el correo');
     }
 
-    this.isLoggingIn = true;
-    console.log('Iniciando login con Google...');
+    const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: idToken, email: email }),  // Enviar el email junto con el token
+    });
 
+    // Guardar datos del usuario en la colección users si el login fue exitoso
+    if (response.ok) {
+      await this.userFirebase(credential);
+    }
+
+    this.isLoggingIn = false;
+    return response.ok ? 'success' : 'error';
+  } catch (error) {
+    console.error(error);
+    this.isLoggingIn = false;
+    return 'error';
+  }
+}
+
+
+  // // oncall con autenticación automática de Firebase
+  // async loginWithGoogle(): Promise<'success' | 'error'> {
+  //   if (this.isLoggingIn) {
+  //     console.log('Login en progreso...');
+  //     return 'error';
+  //   }
+
+  //   this.isLoggingIn = true;
+  //   console.log('Iniciando login con Google...');
+
+  //   try {
+  //     // Paso 1: Autenticar con Google
+  //     const credential = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      
+  //     if (!credential.user) {
+  //       console.error('No user found in credential');
+  //       throw new Error('No user found');
+  //     }
+      
+  //     console.log('Usuario autenticado:', credential.user.email);
+      
+  //     // Paso 2: Usar Firebase Functions onCall
+  //     const verifyFunction = this.fns.httpsCallable('verifyFirebaseOnCall');
+      
+  //     try {
+  //       console.log('🔄 Llamando función onCall...');
+  //       const result = await verifyFunction({ message: 'Verificar autenticación' }).toPromise();
+  //       console.log('✅ Verificación exitosa:', result);
+        
+  //       // Guardar datos del usuario
+  //       await this.userFirebase(credential);
+        
+  //       // Log login exitoso
+  //       await this.logLoginSuccess(credential.user.uid);
+        
+  //       return 'success';
+        
+  //     } catch (callError) {
+  //       console.error('❌ Error con función onCall:', callError);
+        
+  //       // Log login fallido
+  //       const errorMessage = callError instanceof Error ? callError.message : 'Error desconocido en función onCall';
+  //       await this.logLoginFailure(credential.user?.uid, errorMessage);
+        
+  //       return 'error';
+  //     }
+      
+  //   } catch (error) {
+  //     console.error('❌ Error en loginWithGoogle:', error);
+      
+  //     // Log login fallido
+  //     const errorMessage = error instanceof Error ? error.message : 'Error desconocido en login';
+  //     await this.logLoginFailure(null, errorMessage);
+      
+  //     return 'error';
+  //   } finally {
+  //     this.isLoggingIn = false;
+  //   }
+  // }
+
+  private async logLoginSuccess(uid: string) {
     try {
-      // Paso 1: Autenticar con Google
-      const credential = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-      
-      if (!credential.user) {
-        console.error('No user found in credential');
-        throw new Error('No user found');
-      }
-      
-      console.log('Usuario autenticado:', credential.user.email);
-      
-      // Paso 2: Esperar a que el estado de auth se establezca correctamente
-      await this.waitForAuthState(credential.user.uid);
-      
-      // Paso 3: Obtener token
-      const idToken = await credential.user.getIdToken(true);
-      console.log('Token obtenido:', idToken ? 'Sí' : 'No');
-      
-      // Paso 4: SOLUCIÓN CON HTTP POST a la función correcta
-      try {
-        console.log('🔄 Usando HTTP POST con función verifyFirebaseAuth...');
-        
-        // Usar la función HTTP que está correctamente configurada
-        const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            token: idToken,
-            email: credential.user?.email
-          })
-        });
-        
-        console.log('📡 Respuesta HTTP status:', response.status);
-        
-        if (response.status === 200) {
-          console.log('✅ Verificación exitosa con HTTP POST');
-          await this.userFirebase(credential);
-          return 'success';
-        } else {
-          const errorText = await response.text();
-          console.error('❌ Error HTTP POST:', response.status, errorText);
-        }
-        
-      } catch (httpError) {
-        console.log('❌ Error con llamada HTTP:', httpError);
-      }
-      
-      console.error('❌ No se pudo verificar la autenticación');
-      return 'error';
-      
+      await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/logLoginExitoso', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid })
+      });
     } catch (error) {
-      console.error('❌ Error en loginWithGoogle:', error);
-      return 'error';
-    } finally {
-      this.isLoggingIn = false;
+      console.warn('Error logging login success:', error);
     }
   }
 
-  private waitForAuthState(expectedUid: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const subscription = this.afAuth.authState.subscribe(user => {
-        if (user && user.uid === expectedUid) {
-          subscription.unsubscribe();
-          // Esperar un poco más para que el contexto se propague
-          setTimeout(() => resolve(), 1000);
-        }
+  private async logLoginFailure(uid: string | null, detalle: string) {
+    try {
+      await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/logLoginFallido', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid, detalle })
       });
-
-      // Timeout de seguridad
-      setTimeout(() => {
-        subscription.unsubscribe();
-        reject(new Error('Timeout esperando estado de auth'));
-      }, 10000);
-    });
+    } catch (error) {
+      console.warn('Error logging login failure:', error);
+    }
   }
 
 

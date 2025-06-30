@@ -36,26 +36,11 @@ import { ProductComponent } from './admin/product/product.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 import { ProductsListComponent } from './admin/products-list/products-list.component';
-
-// Inicializar Firebase SDK nativo
-import { initializeApp } from 'firebase/app';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
-
-// Inicializar Firebase
-const firebaseApp = initializeApp(environment.firebase);
-const auth = getAuth(firebaseApp);
-const functions = getFunctions(firebaseApp);
-
-// Solo conectar emuladores en desarrollo si es necesario
-// if (!environment.production) {
-//   connectAuthEmulator(auth, 'http://localhost:9099');
-//   connectFunctionsEmulator(functions, 'localhost', 5001);
-// }
 
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
@@ -97,7 +82,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireFunctionsModule,
-    AngularFireAuthModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideStorage(() => getStorage()),
     MsalModule,
   ],
   providers: [
