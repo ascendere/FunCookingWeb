@@ -218,12 +218,12 @@ export class RecipeComponent implements OnInit {
     this._recipesService
       .agregarRecipes(recipes)
       .then(() => {
-        this.logsService.logCreateRecipe(recipes.name);
+        //this.logsService.logCreateRecipe(recipes.name);
         console.log('receta registrada con exito!');
-        this.router.navigate(['/recipes']);
+        this.router.navigate(['/list-recipes']);
       })
       .catch((error: any) => {
-        this.logsService.logErrorCreateRecipe(recipes.name, error);
+        //this.logsService.logErrorCreateRecipe(recipes.name, error);
         console.log(error);
       });
   }
@@ -251,10 +251,10 @@ export class RecipeComponent implements OnInit {
     };
 
     this._recipesService.updateRecipes(id, recipes).then(() => {
-      this.logsService.logEditRecipe(id);
-      this.router.navigate(['/recipes']);
+      //this.logsService.logEditRecipe(id);
+      this.router.navigate(['/list-recipes']);
     }).catch((error) => {
-      this.logsService.logErrorEditRecipe(id, error);
+      //this.logsService.logErrorEditRecipe(id, error);
     });
   }
 

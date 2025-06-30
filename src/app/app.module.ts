@@ -33,14 +33,13 @@ import {
   MsalService,
 } from '@azure/msal-angular';
 import { ProductComponent } from './admin/product/product.component';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getStorage, provideStorage } from '@angular/fire/storage';
 import { RecipeComponent } from './admin/recipe/recipe.component';
 import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 import { ProductsListComponent } from './admin/products-list/products-list.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
@@ -82,8 +81,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireFunctionsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideStorage(() => getStorage()),
+    AngularFireAuthModule,
     MsalModule,
   ],
   providers: [

@@ -21,6 +21,7 @@ async function logLogout({ uid, detalle = "Cierre de sesión", ruta = "/logout" 
 }
 
 // Productos
+/*
 async function logCreateProduct({ uid, nombre, ruta = "/create-producto" }) {
   await logEvento({ uid, evento: "CREATE_PRODUCT", detalle: `Producto creado: ${nombre}` , tipo: "INFO", ruta });
 }
@@ -39,8 +40,10 @@ async function logErrorEditProduct({ uid, id, error, ruta = "/update-producto" }
 async function logErrorDeleteProduct({ uid, id, error, ruta = "/products" }) {
   await logEvento({ uid, evento: "ERROR_DELETE_PRODUCT", detalle: `Error al eliminar producto: ${id} - ${error}` , tipo: "ERROR", ruta });
 }
+*/
 
 // Recetas
+/*
 async function logCreateRecipe({ uid, nombre, ruta = "/create-recipe" }) {
   await logEvento({ uid, evento: "CREATE_RECIPE", detalle: `Receta creada: ${nombre}` , tipo: "INFO", ruta });
 }
@@ -59,22 +62,23 @@ async function logErrorEditRecipe({ uid, id, error, ruta = "/update-recipe" }) {
 async function logErrorDeleteRecipe({ uid, id, error, ruta = "/recipes" }) {
   await logEvento({ uid, evento: "ERROR_DELETE_RECIPE", detalle: `Error al eliminar receta: ${id} - ${error}` , tipo: "ERROR", ruta });
 }
+*/
 
 module.exports = {
   logEvento,
   logLoginExitoso,
   logLoginFallido,
   logLogout,
-  logCreateProduct,
-  logEditProduct,
-  logDeleteProduct,
-  logErrorCreateProduct,
-  logErrorEditProduct,
-  logErrorDeleteProduct,
-  logCreateRecipe,
-  logEditRecipe,
-  logDeleteRecipe,
-  logErrorCreateRecipe,
-  logErrorEditRecipe,
-  logErrorDeleteRecipe
+  // logCreateProduct,
+  // logEditProduct,
+  // logDeleteProduct,
+  // logErrorCreateProduct,
+  // logErrorEditProduct,
+  // logErrorDeleteProduct,
+  // logCreateRecipe,
+  // logEditRecipe,
+  // logDeleteRecipe,
+  // logErrorCreateRecipe,
+  // logErrorEditRecipe,
+  // logErrorDeleteRecipe
 };

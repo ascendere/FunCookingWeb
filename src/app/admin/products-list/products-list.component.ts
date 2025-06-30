@@ -55,11 +55,11 @@ export class ProductsListComponent implements OnInit {
     this._productsService
       .deleteProducts(id)
       .then(() => {
-        this.logsService.logDeleteProduct(id);
+        //this.logsService.logDeleteProduct(id);
         console.log('Product deleted successfully');
       })
       .catch((error) => {
-        this.logsService.logErrorDeleteProduct(id, error);
+        //this.logsService.logErrorDeleteProduct(id, error);
         console.log('Error deleting product:', error);
       });
   }

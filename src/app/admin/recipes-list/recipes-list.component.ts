@@ -54,11 +54,11 @@ export class RecipesListComponent implements OnInit {
     this._recipesService
       .deleteRecipes(id)
       .then(() => {
-        this.logsService.logDeleteRecipe(id);
+        //this.logsService.logDeleteRecipe(id);
         console.log('receta eliminado con exito');
       })
       .catch((error) => {
-        this.logsService.logErrorDeleteRecipe(id, error);
+        //this.logsService.logErrorDeleteRecipe(id, error);
         console.log(error);
       });
   }

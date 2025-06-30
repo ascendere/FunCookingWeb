@@ -18,7 +18,6 @@ export class AuthService {
   private isLoggingIn: boolean = false;
   constructor(
     private afAuth: AngularFireAuth,
-    private functions: AngularFireFunctions,
     private firestore: AngularFirestore,
     private router: Router,
     private fns: AngularFireFunctions,
@@ -51,41 +50,40 @@ export class AuthService {
   }
   //Manejo del logeo con Google y tambien la enviada de un token a la API externa
   // end point
-async loginWithGoogle(): Promise<'success' | 'error'> {
-  if (this.isLoggingIn) return 'error';
-  this.isLoggingIn = true;
+  async loginWithGoogle(): Promise<'success' | 'error'> {
+    if (this.isLoggingIn) return 'error';
+    this.isLoggingIn = true;
 
-  try {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const credential = await this.afAuth.signInWithPopup(provider);
-    const idToken = await credential.user?.getIdToken();
-    const email = credential.user?.email;  // Obtener el correo del usuario
-    console.log(idToken);
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const credential = await this.afAuth.signInWithPopup(provider);
+      const idToken = await credential.user?.getIdToken();
+      const email = credential.user?.email;  // Obtener el correo del usuario
+      console.log(idToken);
 
-    if (!email || !idToken) {
-      throw new Error('No se pudo obtener el token o el correo');
+      if (!email || !idToken) {
+        throw new Error('No se pudo obtener el token o el correo');
+      }
+
+      const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: idToken, email: email }),  // Enviar el email junto con el token
+      });
+
+      // Guardar datos del usuario en la colección users si el login fue exitoso
+      if (response.ok) {
+        await this.userFirebase(credential);
+      }
+
+      this.isLoggingIn = false;
+      return response.ok ? 'success' : 'error';
+    } catch (error) {
+      console.error(error);
+      this.isLoggingIn = false;
+      return 'error';
     }
-
-    const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: idToken, email: email }),  // Enviar el email junto con el token
-    });
-
-    // Guardar datos del usuario en la colección users si el login fue exitoso
-    if (response.ok) {
-      await this.userFirebase(credential);
-    }
-
-    this.isLoggingIn = false;
-    return response.ok ? 'success' : 'error';
-  } catch (error) {
-    console.error(error);
-    this.isLoggingIn = false;
-    return 'error';
   }
-}
-
 
   // // oncall con autenticación automática de Firebase
   // async loginWithGoogle(): Promise<'success' | 'error'> {
@@ -100,52 +98,54 @@ async loginWithGoogle(): Promise<'success' | 'error'> {
   //   try {
   //     // Paso 1: Autenticar con Google
   //     const credential = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-      
+
   //     if (!credential.user) {
   //       console.error('No user found in credential');
   //       throw new Error('No user found');
   //     }
-      
+
   //     console.log('Usuario autenticado:', credential.user.email);
-      
+
   //     // Paso 2: Usar Firebase Functions onCall
   //     const verifyFunction = this.fns.httpsCallable('verifyFirebaseOnCall');
-      
+
   //     try {
   //       console.log('🔄 Llamando función onCall...');
   //       const result = await verifyFunction({ message: 'Verificar autenticación' }).toPromise();
   //       console.log('✅ Verificación exitosa:', result);
-        
+
   //       // Guardar datos del usuario
   //       await this.userFirebase(credential);
-        
+
   //       // Log login exitoso
   //       await this.logLoginSuccess(credential.user.uid);
-        
+
   //       return 'success';
-        
+
   //     } catch (callError) {
   //       console.error('❌ Error con función onCall:', callError);
-        
+
   //       // Log login fallido
   //       const errorMessage = callError instanceof Error ? callError.message : 'Error desconocido en función onCall';
   //       await this.logLoginFailure(credential.user?.uid, errorMessage);
-        
+
   //       return 'error';
   //     }
-      
+
   //   } catch (error) {
   //     console.error('❌ Error en loginWithGoogle:', error);
-      
+
   //     // Log login fallido
   //     const errorMessage = error instanceof Error ? error.message : 'Error desconocido en login';
   //     await this.logLoginFailure(null, errorMessage);
-      
+
   //     return 'error';
   //   } finally {
   //     this.isLoggingIn = false;
   //   }
   // }
+
+
 
   private async logLoginSuccess(uid: string) {
     try {
@@ -264,3 +264,4 @@ async loginWithGoogle(): Promise<'success' | 'error'> {
     return !!user;
   }
 }
+
