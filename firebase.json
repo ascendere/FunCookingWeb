@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/fun-cooking",
+    "public": "dist/fun-cooking-obfuscated",
     "rewrites": [
       {
         "source": "**",

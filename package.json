@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "copy-dist": "cpx \"dist/fun-cooking/**/*.*\" dist/fun-cooking-obfuscated",
+    "obfuscate": "node obfuscate-all.js",
+    "build:prod:obfuscate": "ng build --configuration=production && npm run copy-dist && npm run obfuscate"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +45,9 @@
     "@angular/compiler-cli": "^15.2.0",
     "@angular/localize": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "cpx": "^1.5.0",
+    "glob": "^11.0.3",
+    "javascript-obfuscator": "^4.1.1",
     "typescript": "^4.9.5"
   }
 }

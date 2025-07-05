@@ -40,59 +40,37 @@ exports.verifyFirebaseAuth = functions.https.onRequest((req, res) => {
 
 
 // Función onCall que usa la autenticación automática de Firebase
-exports.verifyFirebaseOnCall = functions.https.onCall((data, context) => {
-  console.log('=== Iniciando verificación de autenticación ===');
-  
-  // Registrar solo datos básicos para evitar estructuras circulares
-  console.log('Tipo de data:', typeof data);
-  console.log('Data keys:', data ? Object.keys(data) : 'no data');
-  if (data && data.message) {
-    console.log('Mensaje recibido:', data.message);
-  }
-  
-  // Registrar solo las partes relevantes del contexto (evitar referencias circulares)
-  const contextInfo = {
-    auth: context.auth ? {
-      uid: context.auth.uid,
-      email: context.auth.token?.email,
-      name: context.auth.token?.name,
-      firebase: context.auth.token?.firebase
-    } : null,
-    instanceIdToken: context.instanceIdToken,
-    rawRequest: {
-      ip: context.rawRequest?.ip,
-      userAgent: context.rawRequest?.headers?.['user-agent'],
-      hasAuthHeader: !!context.rawRequest?.headers?.authorization
-    }
-  };
-  console.log('Información del contexto:', JSON.stringify(contextInfo, null, 2));
-  
-  // Verificar si el usuario está autenticado usando el contexto
+exports.verifyFirebaseOnCall = functions.https.onCall(async (data, context) => {
+  // 1. Verificación automática de autenticación (Firebase lo maneja)
   if (!context.auth) {
-    console.error('❌ Usuario no autenticado - context.auth es null');
-    console.error('Headers de autenticación disponibles:', !!context.rawRequest?.headers?.authorization);
-    throw new functions.https.HttpsError('unauthenticated', 'Usuario no autenticado - No se encontró contexto de autenticación');
+    throw new functions.https.HttpsError(
+      'unauthenticated', 
+      'Debes estar autenticado para llamar a esta función'
+    );
   }
 
-  // El usuario está autenticado, obtener información del contexto
-  const uid = context.auth.uid;
-  const email = context.auth.token?.email;
-  
-  console.log('✅ Usuario autenticado exitosamente:');
-  console.log('- UID:', uid);
-  console.log('- Email:', email);
-  console.log('- Token completo:', JSON.stringify(context.auth.token, null, 2));
+  // 2. Obtener información del usuario autenticado
+  const user = {
+    uid: context.auth.uid,
+    email: context.auth.token.email || null,
+    emailVerified: context.auth.token.email_verified || false
+  };
 
-  // Retornar información del usuario autenticado
+  // 3. Puedes verificar datos adicionales si los envías desde el cliente
+  if (data && data.action) {
+    console.log(`Acción solicitada: ${data.action}`);
+  }
+
+  // 4. Retornar respuesta estructurada
   return {
-    message: 'Autenticación exitosa',
-    user: {
-      uid: uid,
-      email: email,
-      ...context.auth.token
-    }
+    status: 'success',
+    user: user,
+    timestamp: new Date().toISOString(),
+    message: 'Autenticación verificada correctamente'
   };
 });
+  
+
 
 const {
   logEvento,

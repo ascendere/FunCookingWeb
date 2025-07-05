@@ -40,6 +40,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 
 export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
@@ -81,6 +83,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireFunctionsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideStorage(() => getStorage()),
     AngularFireAuthModule,
     MsalModule,
   ],
