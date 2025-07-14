@@ -4,12 +4,6 @@ import { LayoutComponent } from './pages/layout/layout.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SitesComponent } from './pages/sites/sites.component';
-import { LoginComponent } from './pages/login/login.component';
-import { FormularioComponent } from './components/formulario/formulario.component';
-import { ProductComponent } from './admin/product/product.component';
-import { RecipeComponent } from './admin/recipe/recipe.component';
-import { ProductsListComponent } from './admin/products-list/products-list.component';
-import { RecipesListComponent } from './admin/recipes-list/recipes-list.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -30,8 +24,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
-    
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   },
   {
     path: 'locales',
@@ -83,6 +76,13 @@ const routes: Routes = [
     component: RecipeComponent,
     canActivate: [AuthGuard],
   },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
 ];
 
 @NgModule({

@@ -1,0 +1,6 @@
+projectKey=prueba
+serverUrl=http://localhost:9090
+serverVersion=25.7.0.110598
+dashboardUrl=http://localhost:9090/dashboard?id=prueba
+ceTaskId=bdf3289f-8238-4f70-a497-ed02ee43efb1
+ceTaskUrl=http://localhost:9090/api/ce/task?id=bdf3289f-8238-4f70-a497-ed02ee43efb1
