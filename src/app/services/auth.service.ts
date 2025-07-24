@@ -50,82 +50,87 @@ export class AuthService {
   }
   //Manejo del logeo con Google y tambien la enviada de un token a la API externa
   // end point
-   async loginWithGoogle(): Promise<'success' | 'error'> {
-      if (this.isLoggingIn) return 'error';
-      this.isLoggingIn = true;
+  //  async loginWithGoogle(): Promise<'success' | 'error'> {
+  //     if (this.isLoggingIn) return 'error';
+  //     this.isLoggingIn = true;
 
-      try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const credential = await this.afAuth.signInWithPopup(provider);
-        const idToken = await credential.user?.getIdToken();
-        const email = credential.user?.email;  // Obtener el correo del usuario
-        //console.log(idToken);
+  //     try {
+  //       const provider = new firebase.auth.GoogleAuthProvider();
+  //       const credential = await this.afAuth.signInWithPopup(provider);
+  //       const idToken = await credential.user?.getIdToken();
+  //       const email = credential.user?.email;  // Obtener el correo del usuario
+  //       //console.log(idToken);
 
-        if (!email || !idToken) {
-          throw new Error('No se pudo obtener el token o el correo');
-        }
+  //       if (!email || !idToken) {
+  //         throw new Error('No se pudo obtener el token o el correo');
+  //       }
 
-        const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: idToken, email: email }),  // Enviar el email junto con el token
-        });
+  //       const response = await fetch('https://us-central1-funcooking2-72cbd.cloudfunctions.net/verifyFirebaseAuth', {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ token: idToken, email: email }),  // Enviar el email junto con el token
+  //       });
 
-        // Guardar datos del usuario en la colección users si el login fue exitoso
-        if (response.ok) {
-          await this.userFirebase(credential);
-        }
+  //       // Guardar datos del usuario en la colección users si el login fue exitoso
+  //       if (response.ok) {
+  //         await this.userFirebase(credential);
+  //       }
 
-        this.isLoggingIn = false;
-        return response.ok ? 'success' : 'error';
-      } catch (error) {
-        console.error(error);
-        this.isLoggingIn = false;
-        return 'error';
-      }
-    } 
+  //       this.isLoggingIn = false;
+  //       return response.ok ? 'success' : 'error';
+  //     } catch (error) {
+  //       console.error(error);
+  //       this.isLoggingIn = false;
+  //       return 'error';
+  //     }
+  //   } 
 
   // oncall
-  // async loginWithGoogle(): Promise<'success' | 'error'> {
-  //   if (this.isLoggingIn) return 'error';
-  //   this.isLoggingIn = true;
+  async loginWithGoogle(): Promise<'success' | 'error'> {
+    if (this.isLoggingIn) return 'error';
+    this.isLoggingIn = true;
 
-  //   try {
-  //     // 1. Configurar proveedor de Google
-  //     const provider = new firebase.auth.GoogleAuthProvider();
-  //     provider.setCustomParameters({ prompt: 'select_account' });
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
 
-  //     // 2. Autenticar con Google
-  //     const credential = await this.afAuth.signInWithPopup(provider);
+      const credential = await this.afAuth.signInWithPopup(provider);
 
-  //     if (!credential.user) {
-  //       throw new Error('No se pudo obtener el usuario');
-  //     }
+      // Espera a que el usuario esté autenticado en Firebase y fuerza la recarga
+      const idToken = await credential.user?.getIdToken(true);
+      const currentUser = await this.afAuth.currentUser;
+      console.log('Usuario actual:', currentUser);
+      console.log('Token actual:', idToken);
+      if (!credential.user || !currentUser) {
+        throw new Error('No se pudo obtener el usuario autenticado');
+      }
 
-  //     // 3. Esperar breve momento para sincronización
-  //     await new Promise(resolve => setTimeout(resolve, 500));
+      // Espera breve para sincronización
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-  //     // 4. Llamar a la función callable (sin enviar token manualmente)
-  //     const verifyFunction = this.fns.httpsCallable('verifyFirebaseOnCall');
-  //     const result = await verifyFunction({
-  //       action: 'verify_google_auth',
-  //       clientTimestamp: new Date().toISOString()
-  //     }).toPromise();
+      // Llama a la función onCall, el contexto de autenticación se envía automáticamente
+      const verifyFunction = this.fns.httpsCallable('verifyFirebaseOnCall');
+      const result = await verifyFunction({
+        action: 'verify_google_auth',
+        clientTimestamp: new Date().toISOString()
+      }).toPromise();
 
-  //     console.log('Resultado de verificación:', result);
-
-  //     // 5. Guardar datos del usuario en Firestore
-  //     await this.userFirebase(credential);
-  //     await this.logLoginSuccess(credential.user.uid);
-
-  //     return 'success';
-  //   } catch (error) {
-  //     console.error('Error en loginWithGoogle:', this.getErrorDetails(error));
-  //     return 'error';
-  //   } finally {
-  //     this.isLoggingIn = false;
-  //   }
-  // }
+      if (result && result.status === 'success') {
+        await this.userFirebase(credential);
+        await this.logLoginSuccess(credential.user.uid);
+        return 'success';
+      } else {
+        await this.logLoginFailure(credential.user?.uid || null, 'Verificación onCall fallida');
+        return 'error';
+      }
+    } catch (error) {
+      await this.logLoginFailure(null, this.getErrorDetails(error));
+      console.error('Error en loginWithGoogle:', this.getErrorDetails(error));
+      return 'error';
+    } finally {
+      this.isLoggingIn = false;
+    }
+  }
 
   private getErrorDetails(error: unknown): string {
     if (error instanceof Error) {
@@ -260,4 +265,3 @@ export class AuthService {
     return !!user;
   }
 }
-

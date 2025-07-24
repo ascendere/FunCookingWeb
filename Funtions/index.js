@@ -42,32 +42,35 @@ exports.verifyFirebaseAuth = functions.https.onRequest((req, res) => {
 // Función onCall que usa la autenticación automática de Firebase
 exports.verifyFirebaseOnCall = functions.https.onCall(async (data, context) => {
   // 1. Verificación automática de autenticación (Firebase lo maneja)
-  if (!context.auth) {
+  if (!context.auth || !context.auth.uid) {
     throw new functions.https.HttpsError(
       'unauthenticated', 
       'Debes estar autenticado para llamar a esta función'
     );
   }
 
-  // 2. Obtener información del usuario autenticado
-  const user = {
-    uid: context.auth.uid,
-    email: context.auth.token.email || null,
-    emailVerified: context.auth.token.email_verified || false
-  };
-
-  // 3. Puedes verificar datos adicionales si los envías desde el cliente
-  if (data && data.action) {
-    console.log(`Acción solicitada: ${data.action}`);
+  // 2. Verificar que el UID exista en Firebase Authentication
+  try {
+    const userRecord = await admin.auth().getUser(context.auth.uid);
+    // Si el usuario existe, permitir acceso
+    // ...puedes agregar lógica adicional si lo necesitas...
+    return {
+      status: 'success',
+      user: {
+        uid: userRecord.uid,
+        email: userRecord.email,
+        emailVerified: userRecord.emailVerified
+      },
+      timestamp: new Date().toISOString(),
+      message: 'Autenticación verificada correctamente por UID'
+    };
+  } catch (error) {
+    // Si el UID no existe en Firebase Auth, rechazar
+    throw new functions.https.HttpsError(
+      'not-found',
+      'El usuario no existe en Firebase Authentication'
+    );
   }
-
-  // 4. Retornar respuesta estructurada
-  return {
-    status: 'success',
-    user: user,
-    timestamp: new Date().toISOString(),
-    message: 'Autenticación verificada correctamente'
-  };
 });
   
 
